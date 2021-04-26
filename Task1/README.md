@@ -15,12 +15,19 @@ with relatively equivalent numbers of stocks:
 
 ## Files
 **GetEPS.m**: main script to query data and split data.
+
 **scrapeEarningsZacks.m**: lib to query data from Zacks.
+
 **FilterEPS.m**: filter and split data based on all_surprises.csv.
+
 **all_surprises.csv**: ungrouped data.
+
 **Miss.csv**: Miss estimate group data.
+
 **Meet.csv**: Meat estimate group data.
+
 **Beat.csv**: Beat estimate group data.
+
 **Russell_1000_component_stocks.csv**: Russell 1000 stock names.
 
 ## Format of Data
