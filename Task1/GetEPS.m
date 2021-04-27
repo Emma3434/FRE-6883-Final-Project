@@ -69,22 +69,22 @@ sorted_results = sorted_results((cell2mat(sorted_results(:,7)) < 1000)&(cell2mat
 used_ticker_nums = size(sorted_results, 1);
 
 writecell(sorted_results, 'all_surpries.csv');  
-
-% split all the stocks into 3 groups
-for i = 1:3
-   group_start = floor(used_ticker_nums * (i-1) / 3) + 1;
-   group_end = floor(used_ticker_nums * i /3);
-   disp([group_start, group_end]);
-   results_group = sorted_results(group_start:group_end, :);
-   if i == 1
-       filename = 'Miss';
-   elseif i==2
-       filename = 'Meet';
-   else
-       filename = 'Beat';
-   end
-   writecell(results_group, [filename, '.csv']);    
-end
-
+% 
+% % split all the stocks into 3 groups
+% for i = 1:3
+%    group_start = floor(used_ticker_nums * (i-1) / 3) + 1;
+%    group_end = floor(used_ticker_nums * i /3);
+%    disp([group_start, group_end]);
+%    results_group = sorted_results(group_start:group_end, :);
+%    if i == 1
+%        filename = 'Miss';
+%    elseif i==2
+%        filename = 'Meet';
+%    else
+%        filename = 'Beat';
+%    end
+%    writecell(results_group, [filename, '.csv']);    
+% end
+% 
 
 

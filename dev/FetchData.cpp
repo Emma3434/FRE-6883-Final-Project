@@ -1,18 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <locale>
-#include <iomanip>
-#include <fstream>
 
 #include "FetchData.h"
-#include "StockData.h"
-//#include "curl.h"
-#include "curl/curl.h"
-
 
 using namespace std;
 
@@ -152,7 +140,7 @@ int fetch_data(StockData* sd, string startTime, string endTime)
 		free(data.memory);
 		data.size = 0;
 
-		sd->data = data;
+		//sd->data = data;
 	}
 	else
 	{

@@ -1,6 +1,10 @@
 
 #include "StockData.h"
+//#include "FetchData.h"
+#include "Utils.h"
+#include <iostream>
 
+using namespace std;
 
 
 StockData::StockData(string ticker_): ticker(ticker_)
@@ -9,16 +13,21 @@ StockData::StockData(string ticker_): ticker(ticker_)
 	announce_day = "";	
 }
 
-StockData::~StockData()
+
+void StockData::RetrieveData(int N, CalendarManager* calendar)
 {
+	string day0 = announce_day + "T16:00:00";
+	//cout << "announce day: " << announce_day << endl;
+	string startTime = (*calendar).PrevNDays(announce_day, N);
+	string endTime = (*calendar).NextNDays(announce_day, N);
+
+	//fetch_data(this, string startTime, string endTime);
 }
 
-void StockData::SetAnnounceDay(string announce_day_) 
+void StockData::DisplayAttribute() const
 {
-	announce_day = announce_day;
-}
-
-void StockData::SetAnnounceDay(double eps_surprise_)
-{
-	eps_surprise = eps_surprise_;
+	cout << "Ticker: " << ticker
+		<< ", Announce Date: " << announce_day
+		<< ", EPS Surprise: " << eps_surprise
+		<< endl;
 }
