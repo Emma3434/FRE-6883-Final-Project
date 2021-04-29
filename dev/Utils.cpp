@@ -1,6 +1,8 @@
 
 #include "Utils.h"
 
+mutex display_data_mutex;
+
 
 vector<StockData> load_stock_data(string filename, string group)
 {
@@ -77,4 +79,10 @@ std::map<string, StockData> create_stock_map(vector<StockData> stock_list)
 		stock_map[iter.GetTicker()] = iter;
 	}
 	return stock_map;
+}
+
+void thread_task(MyData md)
+{
+	md.sd->RetrieveData(md.N, &md.calendar);
+	md.sd->DisplayData();
 }

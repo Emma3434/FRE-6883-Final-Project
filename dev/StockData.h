@@ -6,6 +6,7 @@
 #include "FetchData.h"
 #include "CalendarManager.h"
 
+
 using namespace std;
 
 class StockData
@@ -19,6 +20,15 @@ public:
 	double actual_eps;
 	double eps_surprise;
 	double eps_surprise_percent;
+
+	vector<string> dates;
+	vector<double> adjclose;
+	vector<double> adjreturn;
+
+	vector<string> dates_benchmark;
+	vector<double> adjclose_benchmark;
+	vector<double> adjreturn_benchmark;
+
 	//struct MemoryStruct data;
 
 	StockData() {};
@@ -45,6 +55,7 @@ public:
 
 
 	void DisplayAttribute() const;
+	void DisplayData() const;
 
 private:
 

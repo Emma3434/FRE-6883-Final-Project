@@ -6,15 +6,19 @@
 #include "Constant.h"
 #include <vector>
 #include <time.h>
+#include <thread>
 //#include <map>
 
 #include <iostream>
 using namespace std;
 
+
+
+
 int main()
 {
 
-	//vector<StockData> stock_list = load_stock_data(TEST_FILE, "Test");
+	vector<StockData> stock_list = load_stock_data(TEST_FILE, "Test");
 
 
 
@@ -35,7 +39,7 @@ int main()
 
 	// test load data
 	// - finish
-	cout << "--------------------------------------------" << endl;
+	/*cout << "--------------------------------------------" << endl;
 	cout << "start test load_stock_dta..." << endl << endl;
 	vector<StockData> stock_list_miss = load_stock_data(MISS_FILE, "Miss");
 	vector<StockData> stock_list_meet = load_stock_data(MEET_FILE, "Meet");
@@ -47,28 +51,56 @@ int main()
 
 	vector<StockData> stock_list = combine_stock_list(stock_list_miss, stock_list_meet, stock_list_beat);
 	
-	cout << "stock list size£º " << stock_list.size() << endl;
+	cout << "stock list size£º " << stock_list.size() << endl;*/
 
 
 
 
 
 
-	// TODO: test retrievedata
+	// test retrievedata
 	// - use CalendarManger to get previous/next date.
 	// - fetch speed might be an issue. multithreading might help.
-	// - fetch data not complete.
+	// - fetch data complete.
 
 	cout << "--------------------------------------------" << endl;
 	cout << "start test fetch data..." << endl << endl;
 
 	int N = 40;
+
 	clock_t time1 = clock();
-	for (auto iter : stock_list) iter.RetrieveData(N, &calendar);
+	for (auto iter : stock_list)
+	{
+		iter.RetrieveData(N, &calendar);
+		iter.DisplayData();
+	}
 	clock_t time2 = clock();
 	double secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	// Count time
 	cout << "run time : " << secs  << " seconds" << endl;
 	
+
+	// test retrievedata using multithreading
+	// - boss-worker model
+	// - fetch speed might be an issue. multithreading might help.
+	cout << "--------------------------------------------" << endl;
+	cout << "start test fetch data..." << endl << endl;
+
+	time1 = clock();
+	thread threads[4];
+	MYDATA mydt[4];
+	for (int i = 0; i < 4; i++) {
+		mydt[i].sd = &stock_list[i];
+		mydt[i].calendar = calendar;
+		mydt[i].N = N;
+
+		threads[i] = thread(thread_task, mydt[i]);
+	}
+	for (auto& t : threads) {
+		t.join();
+	}
+	time2 = clock();
+	secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	// Count time
+	cout << "run time : " << secs << " seconds" << endl;
 
 
 
@@ -80,7 +112,7 @@ int main()
 	cout << "start test stock map..." << endl << endl;
 	map<string, StockData> stock_map = create_stock_map(stock_list);
 	cout << "stock mat size: " << stock_map.size() << endl;
-	stock_map["AAPL"].DisplayAttribute();
+	stock_map["PWR"].DisplayAttribute();
 
 
 
