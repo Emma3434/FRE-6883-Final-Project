@@ -2,6 +2,9 @@
 #include "Utils.h"
 
 mutex display_data_mutex;
+mutex mt;
+deque<MyData> q;
+condition_variable cond;
 
 
 vector<StockData> load_stock_data(string filename, string group)
@@ -84,5 +87,55 @@ std::map<string, StockData> create_stock_map(vector<StockData> stock_list)
 void thread_task(MyData md)
 {
 	md.sd->RetrieveData(md.N, &md.calendar);
-	md.sd->DisplayData();
+}
+
+void thread_producer(MYDATA* md)
+{
+	int count = md->size;
+	for (int i = 0; i < count; i++)
+	{
+		if (q.size() < 5)
+		{		
+			unique_lock<mutex> unique(mt);
+			q.push_front(md[i]);
+
+			this_thread::sleep_for(500ms);
+			unique.unlock();
+			cout << "producer a value: " << md[i].sd->ticker << endl;
+			cond.notify_all();
+		}
+	}
+
+	// poison pill to exits workers
+	MYDATA pill = md[0];
+	pill.size = 0;
+
+	unique_lock<mutex> unique(mt);
+	q.push_front(pill);
+	unique.unlock();
+	cout << "producer a pill" << endl;
+	cond.notify_all();
+}
+
+int thread_consumer()
+{
+	MYDATA mydt;
+	while (1)
+	{
+		unique_lock<mutex> unique(mt);
+		while (q.empty())
+			cond.wait(unique);
+		mydt = q.back();
+		if (mydt.size == 0)
+		{
+			cout << mydt.sd->ticker << " receive pill" << endl;
+			unique.unlock();
+			return 0;
+		}
+		q.pop_back();
+		unique.unlock();
+
+		cout << mydt.sd->ticker << " retrieve data" << endl;
+		mydt.sd->RetrieveData(mydt.N, &mydt.calendar);
+	}
 }

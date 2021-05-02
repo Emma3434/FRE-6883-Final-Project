@@ -96,6 +96,8 @@ int fetch_data(StockData* sd, string startTimeString, string endTimeString)
 		const char* cURL = url.c_str();
 		curl_easy_setopt(handle, CURLOPT_URL, cURL);
 
+		curl_easy_setopt(handle, CURLOPT_ENCODING, "");
+
 		curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, write_data2);
 		curl_easy_setopt(handle, CURLOPT_WRITEDATA, (void*)&data);
 		result = curl_easy_perform(handle);
@@ -209,7 +211,7 @@ int fetch_benchmark(StockData* sd, string startTimeString, string endTimeString)
 			dValue = strtod(sValue.c_str(), NULL); // str to double, for Adj Close column
 			//cout << sDate << " " << std::fixed << setprecision(6) << dValue << endl;
 
-			sd->dates.push_back(sDate);
+			sd->dates_benchmark.push_back(sDate);
 			sd->adjclose_benchmark.push_back(dValue);
 		}
 

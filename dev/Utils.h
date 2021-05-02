@@ -7,6 +7,8 @@
 #include <fstream>
 #include <iostream>
 #include <mutex> 
+#include <deque>
+#include <condition_variable>
 #include "StockData.h"
 
 using namespace std;
@@ -16,6 +18,7 @@ typedef struct MyData
 	StockData* sd;
 	CalendarManager calendar;
 	int N;
+	int size;
 }MYDATA;
 
 //mutex display_data_mutex;
@@ -27,5 +30,9 @@ vector<StockData> combine_stock_list(vector<StockData> stock_list_miss, vector<S
 map<string, StockData> create_stock_map(vector<StockData> stock_list);
 
 void thread_task(MyData md);
+
+void thread_producer(MYDATA* md);
+
+int thread_consumer();
 
 #endif

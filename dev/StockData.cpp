@@ -31,11 +31,11 @@ void StockData::RetrieveData(int N, CalendarManager* calendar)
 	int result = fetch_data(this, startTime, endTime);
 	int result_benchmark = fetch_benchmark(this, startTime, endTime);
 
-	display_data_mutex.lock();
+	//display_data_mutex.lock();
 	cout << "fetch sanity check..." << endl;
 	cout << ticker << " expected length: " << 2*N+1 << ", received length: " << adjclose.size() << endl;
 	cout << ticker << " benchmark expected length: " << 2 * N + 1 << ", received length: " << adjclose_benchmark.size() << endl << endl;
-	display_data_mutex.unlock();
+	//display_data_mutex.unlock();
 	// TODO: sanity stock dates matches benchmark dates
 }
 
@@ -49,15 +49,18 @@ void StockData::DisplayAttribute() const
 
 void StockData::DisplayData() const
 {
-
-	display_data_mutex.lock();
+	//display_data_mutex.lock();
 
 	cout << std::setw(10);
 	cout << setw(6) << "Ticker" << setw(15) << "Dates" << setw(15) << "Adjclose" << endl;
-	for (int i = 0; i <= 4; i++)
+	
+	if (adjclose.size() > 4)
 	{
-		cout << setw(6) << ticker << setw(15) << dates[i] << setw(15) << adjclose[i] << endl;
+		for (int i = 0; i <= 4; i++)
+		{
+			cout << setw(6) << ticker << setw(15) << dates[i] << setw(15) << adjclose[i] << endl;
+		}
 	}
 
-	display_data_mutex.unlock();
+	//display_data_mutex.unlock();
 }

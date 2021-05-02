@@ -51,7 +51,7 @@ public:
 	// getters
 	string GetTicker() const { return ticker; };
 
-
+	
 
 
 	void DisplayAttribute() const;

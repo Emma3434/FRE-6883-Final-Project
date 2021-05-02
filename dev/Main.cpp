@@ -71,48 +71,74 @@ int main()
 	clock_t time1 = clock();
 	for (auto iter : stock_list)
 	{
-		iter.RetrieveData(N, &calendar);
-		iter.DisplayData();
+		cout << iter.ticker << endl;
+		//iter.RetrieveData(N, &calendar);
+		//iter.DisplayData();
 	}
 	clock_t time2 = clock();
-	double secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	// Count time
+	double secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	
 	cout << "run time : " << secs  << " seconds" << endl;
 	
 
+
+
+
 	// test retrievedata using multithreading
-	// - boss-worker model
-	// - fetch speed might be an issue. multithreading might help.
+	// - fetch speed might be an issue.multithreading might help.
+	// - producer-consumer model
+
 	cout << "--------------------------------------------" << endl;
 	cout << "start test fetch data..." << endl << endl;
 
 	time1 = clock();
-	thread threads[4];
-	MYDATA mydt[4];
-	for (int i = 0; i < 4; i++) {
+	
+	MYDATA* mydt = new MYDATA[stock_list.size()];
+	for (int i = 0; i < stock_list.size(); i++) {
 		mydt[i].sd = &stock_list[i];
 		mydt[i].calendar = calendar;
 		mydt[i].N = N;
+		mydt[i].size = stock_list.size();
+	}
+	
+	thread t1(thread_producer, mydt);
 
-		threads[i] = thread(thread_task, mydt[i]);
+	// create thread pool for retrieve data
+	int thread_num = 10;
+	thread* consumer_threads = new thread[thread_num];
+	for (int i = 0; i < thread_num; i++)
+	{
+		consumer_threads[i] = thread(thread_consumer);
 	}
-	for (auto& t : threads) {
-		t.join();
+	
+	for (int i = 0; i < thread_num; i++)
+	{
+		consumer_threads[i].detach();
+		//consumer_threads[i].join();
 	}
+
+	t1.join();
+
+	delete[] consumer_threads;
+	delete[] mydt;
+
+	for (int i = 0; i < 4; i++)
+	{
+		stock_list[i].DisplayData();
+	}
+
 	time2 = clock();
-	secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	// Count time
+	secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	
 	cout << "run time : " << secs << " seconds" << endl;
-
-
 
 
 	// test create stock map
 	// - finish
 
-	cout << "--------------------------------------------" << endl;
+	/*cout << "--------------------------------------------" << endl;
 	cout << "start test stock map..." << endl << endl;
 	map<string, StockData> stock_map = create_stock_map(stock_list);
 	cout << "stock mat size: " << stock_map.size() << endl;
-	stock_map["PWR"].DisplayAttribute();
+	stock_map["PWR"].DisplayAttribute();*/
 
 
 
