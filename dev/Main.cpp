@@ -66,14 +66,15 @@ int main()
 	cout << "--------------------------------------------" << endl;
 	cout << "start test fetch data..." << endl << endl;
 
-	int N = 40;
+	int N = 50;
 
 	clock_t time1 = clock();
 	for (auto iter : stock_list)
 	{
 		cout << iter.ticker << endl;
-		//iter.RetrieveData(N, &calendar);
-		//iter.DisplayData();
+		iter.RetrieveData(N, &calendar);
+		iter.CalDailyReturns();
+		iter.DisplayData();
 	}
 	clock_t time2 = clock();
 	double secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	
@@ -87,48 +88,48 @@ int main()
 	// - fetch speed might be an issue.multithreading might help.
 	// - producer-consumer model
 
-	cout << "--------------------------------------------" << endl;
-	cout << "start test fetch data..." << endl << endl;
+	//cout << "--------------------------------------------" << endl;
+	//cout << "start test fetch data..." << endl << endl;
 
-	time1 = clock();
-	
-	MYDATA* mydt = new MYDATA[stock_list.size()];
-	for (int i = 0; i < stock_list.size(); i++) {
-		mydt[i].sd = &stock_list[i];
-		mydt[i].calendar = calendar;
-		mydt[i].N = N;
-		mydt[i].size = stock_list.size();
-	}
-	
-	thread t1(thread_producer, mydt);
+	//time1 = clock();
+	//
+	//MYDATA* mydt = new MYDATA[stock_list.size()];
+	//for (int i = 0; i < stock_list.size(); i++) {
+	//	mydt[i].sd = &stock_list[i];
+	//	mydt[i].calendar = calendar;
+	//	mydt[i].N = N;
+	//	mydt[i].size = stock_list.size();
+	//}
+	//
+	//thread t1(thread_producer, mydt);
 
-	// create thread pool for retrieve data
-	int thread_num = 10;
-	thread* consumer_threads = new thread[thread_num];
-	for (int i = 0; i < thread_num; i++)
-	{
-		consumer_threads[i] = thread(thread_consumer);
-	}
-	
-	for (int i = 0; i < thread_num; i++)
-	{
-		consumer_threads[i].detach();
-		//consumer_threads[i].join();
-	}
+	//// create thread pool for retrieve data
+	//int thread_num = 10;
+	//thread* consumer_threads = new thread[thread_num];
+	//for (int i = 0; i < thread_num; i++)
+	//{
+	//	consumer_threads[i] = thread(thread_consumer);
+	//}
+	//
+	//for (int i = 0; i < thread_num; i++)
+	//{
+	//	consumer_threads[i].detach();
+	//	//consumer_threads[i].join();
+	//}
 
-	t1.join();
+	//t1.join();
 
-	delete[] consumer_threads;
-	delete[] mydt;
+	//delete[] consumer_threads;
+	//delete[] mydt;
 
-	for (int i = 0; i < 4; i++)
-	{
-		stock_list[i].DisplayData();
-	}
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	stock_list[i].DisplayData();
+	//}
 
-	time2 = clock();
-	secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	
-	cout << "run time : " << secs << " seconds" << endl;
+	//time2 = clock();
+	//secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	
+	//cout << "run time : " << secs << " seconds" << endl;
 
 
 	// test create stock map

@@ -46,7 +46,13 @@ string getTimeinSeconds(string Time)
 	if (ssTime >> std::get_time(&t, "%Y-%m-%dT%H:%M:%S"))
 	{
 		//cout << std::put_time(&t, "%c %Z") << "\n" << std::mktime(&t) << "\n";
-		sprintf(time, "%lld", mktime(&t));
+
+		// TODO: trans date issue
+		//sprintf(time, "%lld", mktime(&t)); 
+		sprintf(time, "%lld", mktime(&t)+24*3600);
+
+		// TODO: trans date issue
+
 		return string(time);
 	}
 	else
@@ -62,7 +68,7 @@ int fetch_data(StockData* sd, string startTimeString, string endTimeString)
 	string endTime = getTimeinSeconds(endTimeString);
 	string symbol = sd->ticker;
 
-	cout << "fetching " << symbol << " from " << startTimeString << " to " << endTimeString << endl;
+	cout << "fetch: " << "fetching " << symbol << " from " << startTimeString << " to " << endTimeString << endl;
 
 	struct MemoryStruct data;
 	data.memory = NULL;

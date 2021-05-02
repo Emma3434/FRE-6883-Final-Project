@@ -21,13 +21,21 @@ public:
 	double eps_surprise;
 	double eps_surprise_percent;
 
+	bool fetch_success;
+
 	vector<string> dates;
 	vector<double> adjclose;
 	vector<double> adjreturn;
+	vector<double> cum_adjreturn;
+
 
 	vector<string> dates_benchmark;
 	vector<double> adjclose_benchmark;
 	vector<double> adjreturn_benchmark;
+	vector<double> cum_adjreturn_benchmark;
+
+	vector<double> abnormal_return;
+
 
 	//struct MemoryStruct data;
 
@@ -47,6 +55,8 @@ public:
 	void SetEPSSurprisePercent(double eps_surprise_percent_) { eps_surprise_percent = eps_surprise_percent_; };
 
 	void RetrieveData(int N, CalendarManager *calendar);
+
+	void CalDailyReturns();
 
 	// getters
 	string GetTicker() const { return ticker; };

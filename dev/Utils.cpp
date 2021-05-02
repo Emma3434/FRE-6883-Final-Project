@@ -2,7 +2,7 @@
 #include "Utils.h"
 
 mutex display_data_mutex;
-mutex mt;
+mutex queue_not_empty_mutex;
 deque<MyData> q;
 condition_variable cond;
 
@@ -93,24 +93,21 @@ void thread_producer(MYDATA* md)
 {
 	int count = md->size;
 	for (int i = 0; i < count; i++)
-	{
-		if (q.size() < 5)
-		{		
-			unique_lock<mutex> unique(mt);
-			q.push_front(md[i]);
+	{			
+		unique_lock<mutex> unique(queue_not_empty_mutex);
+		q.push_front(md[i]);
 
-			this_thread::sleep_for(500ms);
-			unique.unlock();
-			cout << "producer a value: " << md[i].sd->ticker << endl;
-			cond.notify_all();
-		}
+		this_thread::sleep_for(500ms);
+		unique.unlock();
+		cout << "producer a value: " << md[i].sd->ticker << endl;
+		cond.notify_all();
 	}
 
-	// poison pill to exits workers
+	// poison pill to terminate workers
 	MYDATA pill = md[0];
 	pill.size = 0;
 
-	unique_lock<mutex> unique(mt);
+	unique_lock<mutex> unique(queue_not_empty_mutex);
 	q.push_front(pill);
 	unique.unlock();
 	cout << "producer a pill" << endl;
@@ -122,13 +119,14 @@ int thread_consumer()
 	MYDATA mydt;
 	while (1)
 	{
-		unique_lock<mutex> unique(mt);
+		unique_lock<mutex> unique(queue_not_empty_mutex);
 		while (q.empty())
 			cond.wait(unique);
 		mydt = q.back();
 		if (mydt.size == 0)
 		{
-			cout << mydt.sd->ticker << " receive pill" << endl;
+			// receive poison pill: finish all tasks, terminate current thread
+			cout << "thread receive poison pill" << endl;
 			unique.unlock();
 			return 0;
 		}
@@ -136,6 +134,9 @@ int thread_consumer()
 		unique.unlock();
 
 		cout << mydt.sd->ticker << " retrieve data" << endl;
+
+		// multiprocess tasks
 		mydt.sd->RetrieveData(mydt.N, &mydt.calendar);
+		mydt.sd->CalDailyReturns();
 	}
 }
