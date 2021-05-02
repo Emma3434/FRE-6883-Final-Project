@@ -103,7 +103,7 @@ void thread_producer(MYDATA* md)
 		cond.notify_all();
 	}
 
-	// poison pill to terminate workers
+	// poison pill to terminate consumers
 	MYDATA pill = md[0];
 	pill.size = 0;
 
@@ -139,4 +139,64 @@ int thread_consumer()
 		mydt.sd->RetrieveData(mydt.N, &mydt.calendar);
 		mydt.sd->CalDailyReturns();
 	}
+}
+
+bool cmp(pair<StockData, double> a, pair<StockData, double> b) 
+{
+	return a.second < b.second;
+}
+
+map<string, vector<StockData>> bootstrapping(vector<StockData> stock_list)
+{
+	int bootstrap_num = 50;
+	default_random_engine random(time(NULL));
+	std::uniform_real_distribution<double> dist(0.0, 1.0);
+
+	vector< pair<StockData, double> > vec;
+	for (int i = 0; i < stock_list.size()-1; i++)
+	{
+		vec.push_back(pair<StockData, double>(stock_list[i], dist(random)));
+	}
+
+	sort(vec.begin(), vec.end(), cmp);	
+
+	// Beat
+	vector<StockData> beat_result;
+	for (auto iter : vec)
+	{
+		if (iter.first.group == "Beat")
+		{
+			beat_result.push_back(iter.first);
+			if (beat_result.size() == bootstrap_num) break;
+		}
+	}
+
+	// Meet
+	vector<StockData> meet_result;
+	for (auto iter : vec)
+	{
+		if (iter.first.group == "Meet")
+		{
+			meet_result.push_back(iter.first);
+			if (meet_result.size() == bootstrap_num) break;
+		}
+	}
+
+	// Miss
+	vector<StockData> miss_result;
+	for (auto iter : vec)
+	{
+		if (iter.first.group == "Miss")
+		{
+			miss_result.push_back(iter.first);
+			if (miss_result.size() == bootstrap_num) break;
+		}
+	}
+
+	map<string, vector<StockData>> bootstrap_result;
+	bootstrap_result["Beat"] = beat_result;
+	bootstrap_result["Meet"] = meet_result;
+	bootstrap_result["Miss"] = miss_result;
+
+	return bootstrap_result;
 }

@@ -18,8 +18,7 @@ using namespace std;
 int main()
 {
 
-	vector<StockData> stock_list = load_stock_data(TEST_FILE, "Test");
-
+	//vector<StockData> stock_list = load_stock_data(TEST_FILE, "Test");
 
 
 
@@ -39,7 +38,7 @@ int main()
 
 	// test load data
 	// - finish
-	/*cout << "--------------------------------------------" << endl;
+	cout << "--------------------------------------------" << endl;
 	cout << "start test load_stock_dta..." << endl << endl;
 	vector<StockData> stock_list_miss = load_stock_data(MISS_FILE, "Miss");
 	vector<StockData> stock_list_meet = load_stock_data(MEET_FILE, "Meet");
@@ -51,7 +50,7 @@ int main()
 
 	vector<StockData> stock_list = combine_stock_list(stock_list_miss, stock_list_meet, stock_list_beat);
 	
-	cout << "stock list size£º " << stock_list.size() << endl;*/
+	cout << "stock list size£º " << stock_list.size() << endl;
 
 
 
@@ -63,22 +62,22 @@ int main()
 	// - fetch speed might be an issue. multithreading might help.
 	// - fetch data complete.
 
-	cout << "--------------------------------------------" << endl;
-	cout << "start test fetch data..." << endl << endl;
+	//cout << "--------------------------------------------" << endl;
+	//cout << "start test fetch data..." << endl << endl;
 
-	int N = 50;
+	//int N = 50;
 
-	clock_t time1 = clock();
-	for (auto iter : stock_list)
-	{
-		cout << iter.ticker << endl;
-		iter.RetrieveData(N, &calendar);
-		iter.CalDailyReturns();
-		iter.DisplayData();
-	}
-	clock_t time2 = clock();
-	double secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	
-	cout << "run time : " << secs  << " seconds" << endl;
+	//clock_t time1 = clock();
+	//for (auto iter : stock_list)
+	//{
+	//	cout << iter.ticker << endl;
+	//	iter.RetrieveData(N, &calendar);
+	//	iter.CalDailyReturns();
+	//	iter.DisplayData();
+	//}
+	//clock_t time2 = clock();
+	//double secs = (double)(time2 - time1) / CLOCKS_PER_SEC;	
+	//cout << "run time : " << secs  << " seconds" << endl;
 	
 
 
@@ -143,6 +142,24 @@ int main()
 
 
 
+
+	// test bootstrapping
+	// - 
+
+	map<string, vector<StockData>> bootstrap_result;
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "bootstrapping trial: " << i << endl;
+		bootstrap_result = bootstrapping(stock_list);
+		cout << "Beat length: " << bootstrap_result["Beat"].size() << endl;
+		cout << "Meet length: " << bootstrap_result["Meet"].size() << endl;
+		cout << "Miss length: " << bootstrap_result["Miss"].size() << endl;
+		bootstrap_result["Beat"][0].DisplayAttribute();
+		bootstrap_result["Meet"][1].DisplayAttribute();
+		bootstrap_result["Miss"][2].DisplayAttribute();
+		cout << endl;
+	}
+	
 
 	cout << "end" << endl;
 }

@@ -6,6 +6,8 @@
 #include <sstream> 
 #include <fstream>
 #include <iostream>
+#include <random>  
+#include <time.h>  
 #include <mutex> 
 #include <deque>
 #include <condition_variable>
@@ -34,5 +36,9 @@ void thread_task(MyData md);
 void thread_producer(MYDATA* md);
 
 int thread_consumer();
+
+bool cmp(pair<StockData, double> a, pair<StockData, double> b);
+
+map<string, vector<StockData>> bootstrapping(vector<StockData> stock_list);
 
 #endif

@@ -62,7 +62,7 @@ void StockData::RetrieveData(int N, CalendarManager* calendar)
 
 void StockData::CalDailyReturns()
 {
-	// clear adjreturn
+	// clear returns
 	vector <double>().swap(adjreturn);
 	vector <double>().swap(cum_adjreturn);
 	vector <double>().swap(adjreturn_benchmark);
@@ -91,7 +91,8 @@ void StockData::DisplayAttribute() const
 	cout << "Ticker: " << ticker
 		<< ", Announce Date: " << announce_day
 		<< ", EPS Surprise: " << eps_surprise
-		<< endl << endl;
+		<< ", Group: " << group
+		<< endl;
 }
 
 void StockData::DisplayData() const
