@@ -27,9 +27,9 @@ void StockData::RetrieveData(int N, CalendarManager* calendar)
 
 	// clear dates and adjclose vectors
 	vector <string>().swap(dates);
-	vector <double>().swap(adjclose);
+	adjclose.clear();
 	vector <string>().swap(dates_benchmark);
-	vector <double>().swap(adjclose_benchmark);
+	adjclose_benchmark.clear();
 
 
 	string day0 = announce_day + "T16:00:00";
@@ -62,28 +62,13 @@ void StockData::RetrieveData(int N, CalendarManager* calendar)
 
 void StockData::CalDailyReturns()
 {
-	// clear returns
-	vector <double>().swap(adjreturn);
-	vector <double>().swap(cum_adjreturn);
-	vector <double>().swap(adjreturn_benchmark);
-	vector <double>().swap(cum_adjreturn_benchmark);
-	vector <double>().swap(abnormal_return);
 
-	// zero return for first day
-	adjreturn.push_back(0);
-	cum_adjreturn.push_back(0);
-	adjreturn_benchmark.push_back(0);
-	cum_adjreturn_benchmark.push_back(0);
-	abnormal_return.push_back(0);
+	adjreturn = adjclose.pct_change();
+	cum_adjreturn = adjreturn.cumsum();
+	adjreturn_benchmark = adjclose_benchmark.pct_change();
+	cum_adjreturn_benchmark = adjreturn_benchmark.cumsum();
+	abnormal_return = adjreturn - adjreturn_benchmark;
 
-	for (int i = 1; i < adjclose.size(); i++)
-	{
-		adjreturn.push_back(adjclose[i] / adjclose[i-1] - 1);
-		cum_adjreturn.push_back(cum_adjreturn.back() + adjreturn.back());
-		adjreturn_benchmark.push_back(adjclose_benchmark[i] / adjclose_benchmark[i - 1] - 1);
-		cum_adjreturn_benchmark.push_back(cum_adjreturn_benchmark.back() + adjreturn_benchmark.back());
-		abnormal_return.push_back(adjreturn.back() - adjreturn_benchmark.back());
-	}
 }
 
 void StockData::DisplayAttribute() const
@@ -108,7 +93,7 @@ void StockData::DisplayData() const
 		<< setw(15) << "Benchmarkreturn"
 		<< setw(15) << "Abnormalreturn"
 		<< endl;
-	
+
 	if (adjclose.size() > 4)
 	{
 		for (int i = 0; i <= 4; i++)
