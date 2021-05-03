@@ -76,7 +76,7 @@ void StockData::CalDailyReturns()
 	cum_adjreturn_benchmark.push_back(0);
 	abnormal_return.push_back(0);
 
-	for (int i = 1; i < (adjclose.size()-1); i++)
+	for (int i = 1; i < adjclose.size(); i++)
 	{
 		adjreturn.push_back(adjclose[i] / adjclose[i-1] - 1);
 		cum_adjreturn.push_back(cum_adjreturn.back() + adjreturn.back());
