@@ -44,13 +44,13 @@ int main()
 	vector<StockData> stock_list_meet = load_stock_data(MEET_FILE, "Meet");
 	vector<StockData> stock_list_beat = load_stock_data(BEAT_FILE, "Beat");
 
-	cout << "stock list Miss size£º " << stock_list_miss.size() << endl;
-	cout << "stock list Meet size£º " << stock_list_meet.size() << endl;
-	cout << "stock list Beat size£º " << stock_list_beat.size() << endl;
+	cout << "stock list Miss sizeÂ£Âº " << stock_list_miss.size() << endl;
+	cout << "stock list Meet sizeÂ£Âº " << stock_list_meet.size() << endl;
+	cout << "stock list Beat sizeÂ£Âº " << stock_list_beat.size() << endl;
 
 	vector<StockData> stock_list = combine_stock_list(stock_list_miss, stock_list_meet, stock_list_beat);
 	
-	cout << "stock list size£º " << stock_list.size() << endl;
+	cout << "stock list sizeÂ£Âº " << stock_list.size() << endl;
 
 
 
@@ -160,6 +160,62 @@ int main()
 		cout << endl;
 	}
 	
+	
+	
+	//test vector class
+	//-
+	cout << "--------------------------------------------" << endl;
+	cout << "start test VectorClass..." << endl << endl;
+	vector<double> data = { 100,101,102,103,104 };
+	vector<double> data2 = { 99,100,101,102,103 };
+    Vector adjclose(data);
+	Vector adjclose2(data2);
+	Vector adjclose3(data);
+	cout << "Original vector adjclose" << " ";
+	for (int i = 0; i < adjclose.size(); i++)
+	{
+		cout << adjclose[i] << " ";
+	}
+	cout << endl;
+	cout << "Test adjclose.size() " << adjclose.size() << endl;
+	adjclose.push_back(105);
+	cout << "After push_back(105) ";
+	for (int i = 0; i < adjclose.size(); i++)
+	{
+		cout << adjclose[i]<<" ";
+	}
+	cout << endl;
+	cout << "adjclose.back()" << adjclose.back() << endl;
+	Vector pctchange = adjclose.pct_change();
+	cout << "After pct_change() ";
+	for (int i = 0; i < pctchange.size(); i++)
+	{
+		cout << pctchange[i]<<" ";
+	}
+	cout << endl;
+	cout << "Calculate sum of adjreturn " << pctchange.sum() << endl;
+	cout << "Calculate cumsum of adjreturn ";
+	for (int i = 0; i < pctchange.cumsum().size(); i++)
+	{
+		cout << pctchange.cumsum()[i] << " ";
+	}
+	cout << endl;
+	
+	Vector diff = adjclose3 - adjclose2;
+	Vector sum = adjclose3 + adjclose2;
+
+	cout << "Sum of data 3 and 2 ";
+	for (int i = 0; i < sum.size(); i++)
+	{
+		cout << sum[i] <<" ";
+	}
+	cout << endl;
+	cout << "Difference of data 3 and 2 ";
+	for (int i = 0; i < diff.size(); i++)
+	{
+		cout << diff.data[i] <<" ";
+	}
+	cout << endl;
 
 	cout << "end" << endl;
 }
