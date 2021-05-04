@@ -54,6 +54,14 @@ public:
 	{
 		return data[idx];
 	};
+	
+	friend ostream& operator<<(ostream& out, Vector& V)
+	{
+		for (auto itr = V.data.begin(); itr != V.data.end(); itr++)
+			out << *itr << "  ";
+		out << endl;
+		return out;
+	};
 
 };
 
