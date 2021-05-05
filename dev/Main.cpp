@@ -172,7 +172,7 @@ int main()
 	cout << "start test VectorClass..." << endl << endl;
 	vector<double> data = { 100,101,102,103,104 };
 	vector<double> data2 = { 99,100,101,102,103 };
-    Vector adjclose(data);
+    	Vector adjclose(data);
 	Vector adjclose2(data2);
 	Vector adjclose3(data);
 	cout << "Original vector adjclose" << " ";
