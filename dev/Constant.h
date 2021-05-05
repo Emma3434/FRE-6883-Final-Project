@@ -12,6 +12,7 @@ using namespace std;
 #define MISS_FILE ".\\data\\Miss.csv"
 #define MEET_FILE ".\\data\\Meet.csv"
 #define BEAT_FILE ".\\data\\Beat.csv"
+#define THREAD_NUM 5
 
 
 #endif

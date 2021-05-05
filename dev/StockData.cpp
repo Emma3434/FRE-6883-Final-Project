@@ -62,13 +62,14 @@ void StockData::RetrieveData(int N, CalendarManager* calendar)
 
 void StockData::CalDailyReturns()
 {
-
-	adjreturn = adjclose.pct_change();
-	cum_adjreturn = adjreturn.cumsum();
-	adjreturn_benchmark = adjclose_benchmark.pct_change();
-	cum_adjreturn_benchmark = adjreturn_benchmark.cumsum();
-	abnormal_return = adjreturn - adjreturn_benchmark;
-
+	if (fetch_success)
+	{
+		adjreturn = adjclose.pct_change();
+		cum_adjreturn = adjreturn.cumsum();
+		adjreturn_benchmark = adjclose_benchmark.pct_change();
+		cum_adjreturn_benchmark = adjreturn_benchmark.cumsum();
+		abnormal_return = adjreturn - adjreturn_benchmark;
+	}	
 }
 
 void StockData::DisplayAttribute() const

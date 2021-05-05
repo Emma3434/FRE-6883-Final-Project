@@ -112,6 +112,7 @@ void thread_producer(MYDATA* md)
 	unique.unlock();
 	cout << "producer a pill" << endl;
 	cond.notify_all();
+	this_thread::sleep_for(chrono::seconds(10));
 }
 
 int thread_consumer()
