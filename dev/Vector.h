@@ -5,6 +5,7 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -58,7 +59,7 @@ public:
 	friend ostream& operator<<(ostream& out, Vector& V)
 	{
 		for (auto itr = V.data.begin(); itr != V.data.end(); itr++)
-			out << *itr << "  ";
+			out << setw(15) << *itr;
 		out << endl;
 		return out;
 	};
