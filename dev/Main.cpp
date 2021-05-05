@@ -43,17 +43,17 @@ int main()
 	// - finish
 	/*cout << "--------------------------------------------" << endl;
 	cout << "start test load_stock_dta..." << endl << endl;
-	vector<StockData> stock_list_miss = load_stock_data(MISS_FILE, "Miss");
-	vector<StockData> stock_list_meet = load_stock_data(MEET_FILE, "Meet");
-	vector<StockData> stock_list_beat = load_stock_data(BEAT_FILE, "Beat");
+	vector<StockData*> stock_list_miss = load_stock_data(MISS_FILE, "Miss");
+	vector<StockData*> stock_list_meet = load_stock_data(MEET_FILE, "Meet");
+	vector<StockData*> stock_list_beat = load_stock_data(BEAT_FILE, "Beat");
 
-	cout << "stock list Miss size£º " << stock_list_miss.size() << endl;
-	cout << "stock list Meet size£º " << stock_list_meet.size() << endl;
-	cout << "stock list Beat size£º " << stock_list_beat.size() << endl;
+	cout << "stock list Miss size: " << stock_list_miss.size() << endl;
+	cout << "stock list Meet size: " << stock_list_meet.size() << endl;
+	cout << "stock list Beat size: " << stock_list_beat.size() << endl;
 
-	vector<StockData> stock_list = combine_stock_list(stock_list_miss, stock_list_meet, stock_list_beat);
+	vector<StockData*> stock_list = combine_stock_list(stock_list_miss, stock_list_meet, stock_list_beat);
 	
-	cout << "stock list size£º " << stock_list.size() << endl;*/
+	cout << "stock list size: " << stock_list.size() << endl;*/
 
 
 
@@ -140,9 +140,9 @@ int main()
 
 	/*cout << "--------------------------------------------" << endl;
 	cout << "start test stock map..." << endl << endl;
-	map<string, StockData> stock_map = create_stock_map(stock_list);
-	cout << "stock mat size: " << stock_map.size() << endl;
-	stock_map["PWR"].DisplayAttribute();*/
+	map<string, StockData*> stock_map = create_stock_map(stock_list);
+	cout << "stock map size: " << stock_map.size() << endl;
+	stock_map["PWR"]->DisplayAttribute();*/
 
 
 
@@ -150,7 +150,7 @@ int main()
 	// test bootstrapping
 	// - 
 
-	/*map<string, vector<StockData>> bootstrap_result;
+	/*map<string, vector<StockData*>> bootstrap_result;
 	for (int i = 0; i < 3; i++)
 	{
 		cout << "bootstrapping trial: " << i << endl;
@@ -158,9 +158,9 @@ int main()
 		cout << "Beat length: " << bootstrap_result["Beat"].size() << endl;
 		cout << "Meet length: " << bootstrap_result["Meet"].size() << endl;
 		cout << "Miss length: " << bootstrap_result["Miss"].size() << endl;
-		bootstrap_result["Beat"][0].DisplayAttribute();
-		bootstrap_result["Meet"][1].DisplayAttribute();
-		bootstrap_result["Miss"][2].DisplayAttribute();
+		bootstrap_result["Beat"][0]->DisplayAttribute();
+		bootstrap_result["Meet"][1]->DisplayAttribute();
+		bootstrap_result["Miss"][2]->DisplayAttribute();
 		cout << endl;
 	}*/
 	
