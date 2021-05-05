@@ -1,5 +1,5 @@
 # Develop Codes and Test
-The *Main.cpp* is only for test use.
+The *Main_Test.cpp* is only for test use.
 
 ## Files
 **CalendarManager (h/cpp)**: load trading calendar from local calendar file. calendar prev/next trading days.
