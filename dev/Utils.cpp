@@ -7,7 +7,7 @@ deque<MyData> q;
 condition_variable cond;
 
 
-vector<StockData> load_stock_data(string filename, string group)
+vector<StockData*> load_stock_data(string filename, string group)
 {
 	// load data from local grouped EPS files.
 	// initiliaze StockData instances using data.
@@ -16,33 +16,33 @@ vector<StockData> load_stock_data(string filename, string group)
 	ifstream inFile(filename, ios::in);
 	string line;
 
-	vector<StockData> stock_list;
+	vector<StockData*> stock_list;
 
 	while (getline(inFile, line))
 	{
 		//cout << line << endl;
 
-		StockData stock;
-		stock.SetGroup(group);
+		StockData* stock = new StockData();
+		stock->SetGroup(group);
 
-		stock.SetTicker(line.substr(0, line.find_first_of(',')));
+		stock->SetTicker(line.substr(0, line.find_first_of(',')));
 
-		stock.SetEPSSurprisePercent(stod(line.substr(line.find_last_of(',') + 1)));
+		stock->SetEPSSurprisePercent(stod(line.substr(line.find_last_of(',') + 1)));
 		line.erase(line.find_last_of(','));
 
-		stock.SetEPSSurprise(stod(line.substr(line.find_last_of(',') + 1)));
+		stock->SetEPSSurprise(stod(line.substr(line.find_last_of(',') + 1)));
 		line.erase(line.find_last_of(','));
 
-		stock.SetActualEPS(stod(line.substr(line.find_last_of(',') + 1)));
+		stock->SetActualEPS(stod(line.substr(line.find_last_of(',') + 1)));
 		line.erase(line.find_last_of(','));
 
-		stock.SetEstimateEPS(stod(line.substr(line.find_last_of(',') + 1)));
+		stock->SetEstimateEPS(stod(line.substr(line.find_last_of(',') + 1)));
 		line.erase(line.find_last_of(','));
 
-		stock.SetPeriodEnd(line.substr(line.find_last_of(',') + 1));
+		stock->SetPeriodEnd(line.substr(line.find_last_of(',') + 1));
 		line.erase(line.find_last_of(','));
 
-		stock.SetAnnounceDay(line.substr(line.find_last_of(',') + 1));
+		stock->SetAnnounceDay(line.substr(line.find_last_of(',') + 1));
 
 		//stock.ShowAttribute();
 		stock_list.push_back(stock);
@@ -51,11 +51,11 @@ vector<StockData> load_stock_data(string filename, string group)
 	return stock_list;
 }
 
-vector<StockData> combine_stock_list(vector<StockData> stock_list_miss, vector<StockData> stock_list_meet, vector<StockData> stock_list_beat)
+vector<StockData*> combine_stock_list(vector<StockData*> stock_list_miss, vector<StockData*> stock_list_meet, vector<StockData*> stock_list_beat)
 {
 	// combine stock instances from three groups
 
-	vector<StockData> stock_list;
+	vector<StockData*> stock_list;
 	for (auto iter : stock_list_miss)
 	{
 		stock_list.push_back(iter);
@@ -74,12 +74,12 @@ vector<StockData> combine_stock_list(vector<StockData> stock_list_miss, vector<S
 	return stock_list;
 }
 
-std::map<string, StockData> create_stock_map(vector<StockData> stock_list)
+std::map<string, StockData*> create_stock_map(vector<StockData*> stock_list)
 {
-	std::map<string, StockData> stock_map;
+	std::map<string, StockData*> stock_map;
 	for (auto iter : stock_list)
 	{
-		stock_map[iter.GetTicker()] = iter;
+		stock_map[iter->GetTicker()] = iter;
 	}
 	return stock_map;
 }
@@ -141,30 +141,30 @@ int thread_consumer()
 	}
 }
 
-bool cmp(pair<StockData, double> a, pair<StockData, double> b) 
+bool cmp(pair<StockData*, double> a, pair<StockData*, double> b) 
 {
 	return a.second < b.second;
 }
 
-map<string, vector<StockData>> bootstrapping(vector<StockData> stock_list)
+map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list)
 {
 	int bootstrap_num = 50;
 	default_random_engine random(time(NULL));
 	std::uniform_real_distribution<double> dist(0.0, 1.0);
 
-	vector< pair<StockData, double> > vec;
+	vector< pair<StockData*, double> > vec;
 	for (int i = 0; i < stock_list.size()-1; i++)
 	{
-		vec.push_back(pair<StockData, double>(stock_list[i], dist(random)));
+		vec.push_back(pair<StockData*, double>(stock_list[i], dist(random)));
 	}
 
 	sort(vec.begin(), vec.end(), cmp);	
 
 	// Beat
-	vector<StockData> beat_result;
+	vector<StockData*> beat_result;
 	for (auto iter : vec)
 	{
-		if (iter.first.group == "Beat")
+		if (iter.first->group == "Beat")
 		{
 			beat_result.push_back(iter.first);
 			if (beat_result.size() == bootstrap_num) break;
@@ -172,10 +172,10 @@ map<string, vector<StockData>> bootstrapping(vector<StockData> stock_list)
 	}
 
 	// Meet
-	vector<StockData> meet_result;
+	vector<StockData*> meet_result;
 	for (auto iter : vec)
 	{
-		if (iter.first.group == "Meet")
+		if (iter.first->group == "Meet")
 		{
 			meet_result.push_back(iter.first);
 			if (meet_result.size() == bootstrap_num) break;
@@ -183,17 +183,17 @@ map<string, vector<StockData>> bootstrapping(vector<StockData> stock_list)
 	}
 
 	// Miss
-	vector<StockData> miss_result;
+	vector<StockData*> miss_result;
 	for (auto iter : vec)
 	{
-		if (iter.first.group == "Miss")
+		if (iter.first->group == "Miss")
 		{
 			miss_result.push_back(iter.first);
 			if (miss_result.size() == bootstrap_num) break;
 		}
 	}
 
-	map<string, vector<StockData>> bootstrap_result;
+	map<string, vector<StockData*>> bootstrap_result;
 	bootstrap_result["Beat"] = beat_result;
 	bootstrap_result["Meet"] = meet_result;
 	bootstrap_result["Miss"] = miss_result;
