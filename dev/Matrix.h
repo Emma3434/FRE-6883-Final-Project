@@ -12,14 +12,16 @@ using namespace std;
 class Matrix
 {
 public:
+
+	
 	//setters
 	vector<Vector> data;
 	Matrix() {};
-	Matrix(vector<StockData> stock_list)
+	Matrix(vector<StockData*> stock_list)
 	{
 		for (auto iter : stock_list)
 		{
-			data.push_back(iter.abnormal_return);
+			data.push_back(iter->abnormal_return);
 		}
 	};
 	~Matrix() {};
