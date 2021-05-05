@@ -12,7 +12,9 @@ using namespace std;
 class Matrix
 {
 public:
+	//setters
 	vector<Vector> data;
+	Matrix() {};
 	Matrix(vector<StockData> stock_list)
 	{
 		for (auto iter : stock_list)
@@ -20,10 +22,23 @@ public:
 			data.push_back(iter.abnormal_return);
 		}
 	};
+	~Matrix() {};
 	void append(Vector& V);
+
+	//getters
 	Vector sum();
 	Vector mean();
 	Vector std();
+
+	//operator overloading
+	friend ostream& operator << (ostream& out, Matrix & M)
+	{
+		for (auto itr = M.data.begin(); itr != M.data.end(); itr++)
+			out << *itr;
+		out << endl;
+		return out;
+	}
+
 };
 
 
