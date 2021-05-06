@@ -268,67 +268,6 @@ int fetch_data_list(vector<StockData*> stock_list)
 	if (handle)
 	{
 
-		//if (sCookies.length() == 0 || sCrumb.length() == 0)
-		//{
-		//	fp1 = fopen(outfilename, "w");
-		//	curl_easy_setopt(handle, CURLOPT_URL, "https://finance.yahoo.com/quote/AMZN/history");
-		//	curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0);
-		//	curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0);
-		//	curl_easy_setopt(handle, CURLOPT_COOKIEJAR, "cookies.txt");
-		//	curl_easy_setopt(handle, CURLOPT_COOKIEFILE, "cookies.txt");
-
-		//	curl_easy_setopt(handle, CURLOPT_ENCODING, "");
-		//	curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, write_data);
-		//	curl_easy_setopt(handle, CURLOPT_WRITEDATA, fp1);
-		//	result = curl_easy_perform(handle);
-		//	fclose(fp1);
-
-		//	if (result != CURLE_OK)
-		//	{
-		//		// if errors have occurred, tell us what is wrong with result
-		//		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(result));
-		//		return 1;
-		//	}
-
-		//	curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, write_data2);
-		//	curl_easy_setopt(handle, CURLOPT_WRITEDATA, (void*)&data);
-
-		//	// perform, then store the expected code in result
-		//	result = curl_easy_perform(handle);
-
-		//	if (result != CURLE_OK)
-		//	{
-		//		// if errors have occured, tell us what is wrong with result
-		//		fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(result));
-		//		return 1;
-		//	}
-
-		//	char cKey[] = "CrumbStore\":{\"crumb\":\"";
-		//	char* ptr1 = strstr(data.memory, cKey);
-		//	char* ptr2 = ptr1 + strlen(cKey);
-		//	char* ptr3 = strstr(ptr2, "\"}");
-		//	if (ptr3 != NULL)
-		//		*ptr3 = NULL;
-
-		//	sCrumb = ptr2;
-
-		//	fp1 = fopen("cookies.txt", "r");
-		//	char cCookies[100];
-		//	if (fp1) {
-		//		while (fscanf(fp1, "%s", cCookies) != EOF);
-		//		fclose(fp1);
-		//	}
-		//	else
-		//		cerr << "cookies.txt does not exists" << endl;
-
-		//	sCookies = cCookies;
-		//	cout << sCrumb << endl;
-		//	cout << sCookies << endl;
-		//	free(data.memory);
-		//	data.memory = NULL;
-		//	data.size = 0;
-		//}
-
 		vector<string> dates_benchmark;
 		vector<double> price_benchmark; 
 		map<string, double> benchmark_mapping;
@@ -448,7 +387,6 @@ int fetch_data_list(vector<StockData*> stock_list)
 			free(data.memory);
 			data.size = 0;
 		}
-
 	}
 	else
 	{
