@@ -122,7 +122,6 @@ void StockData::DisplayAttribute() const
 
 void StockData::DisplayData() const
 {
-	//display_data_mutex.lock();
 
 	cout << std::setw(10);
 	cout << setw(6) << "Ticker" 
@@ -150,5 +149,4 @@ void StockData::DisplayData() const
 	}
 	cout << endl;
 
-	//display_data_mutex.unlock();
 }

@@ -1,7 +1,10 @@
 
 #include "MainEngine.h"
 
-extern int fetch_data_list(vector<StockData*> stock_list);
+extern int fetch_data_list_single(vector<StockData*> stock_list);
+
+extern int fetch_data_list_multi(vector<StockData*> stock_list);
+
 
 void MainEngine::Initialize()
 {
@@ -49,7 +52,7 @@ void MainEngine::RetrieveDataSingleThread()
 
 	for (auto iter : stock_list)  iter->RetrieveDataSetting(N, &calendar);
 
-	fetch_data_list(stock_list);
+	fetch_data_list_single(stock_list);
 
 	for (auto iter : stock_list)
 	{
@@ -67,43 +70,21 @@ void MainEngine::RetrieveDataSingleThread()
 
 void MainEngine::RetrieveDataMultiThread()
 {
-	cout << "start retrieve data (mutli-thread)..." << endl << endl;
+	cout << "start retrieve data (multi-thread)..." << endl << endl;
 
 	clock_t time1 = clock();
-	time1 = clock();
-	
-	MYDATA* mydt = new MYDATA[stock_list.size()];
-	for (int i = 0; i < stock_list.size(); i++) {
-		mydt[i].sd = stock_list[i];
-		mydt[i].calendar = calendar;
-		mydt[i].N = N;
-		mydt[i].size = stock_list.size();
-	}
-	
-	thread t1(thread_producer, mydt);
 
-	// create thread pool for retrieve data
-	thread* consumer_threads = new thread[THREAD_NUM];
-	for (int i = 0; i < THREAD_NUM; i++)
+	for (auto iter : stock_list)  iter->RetrieveDataSetting(N, &calendar);
+
+	fetch_data_list_multi(stock_list);
+
+	for (auto iter : stock_list)
 	{
-		consumer_threads[i] = thread(thread_consumer);
+		cout << iter->ticker << endl;
+		iter->RetrieveDataSanityCheck();
+		iter->CalDailyReturns();
+		//iter->DisplayData();
 	}
-	
-	for (int i = 0; i < THREAD_NUM; i++)
-	{
-		//consumer_threads[i].detach();
-		consumer_threads[i].join();
-	}
-
-	t1.join();
-
-	delete[] consumer_threads;
-	delete[] mydt;
-
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	stock_list[i]->DisplayData();
-	//}
 
 	clock_t time2 = clock();
 	double secs = (double)(time2 - time1) / CLOCKS_PER_SEC;

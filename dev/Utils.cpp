@@ -7,6 +7,10 @@ deque<MyData> q;
 condition_variable cond;
 
 
+extern int write_data2(void* ptr, size_t size, size_t nmemb, void* data);
+
+extern string getTimeinSeconds(string Time);
+
 vector<StockData*> load_stock_data(string filename, string group)
 {
 	// load data from local grouped EPS files.
@@ -84,20 +88,16 @@ std::map<string, StockData*> create_stock_map(vector<StockData*> stock_list)
 	return stock_map;
 }
 
-void thread_task(MyData md)
-{
-	md.sd->RetrieveData(md.N, &md.calendar);
-}
 
 void thread_producer(MYDATA* md)
 {
 	int count = md->size;
 	for (int i = 0; i < count; i++)
-	{			
+	{
 		unique_lock<mutex> unique(queue_not_empty_mutex);
 		q.push_front(md[i]);
+		//this_thread::sleep_for(100ms);
 
-		this_thread::sleep_for(500ms);
 		unique.unlock();
 		cout << "producer a value: " << md[i].sd->ticker << endl;
 		cond.notify_all();
@@ -112,8 +112,9 @@ void thread_producer(MYDATA* md)
 	unique.unlock();
 	cout << "producer a pill" << endl;
 	cond.notify_all();
-	this_thread::sleep_for(chrono::seconds(10));
+	//this_thread::sleep_for(chrono::seconds(10));
 }
+
 
 int thread_consumer()
 {
@@ -133,12 +134,77 @@ int thread_consumer()
 		}
 		q.pop_back();
 		unique.unlock();
+			
+		StockData* sd = mydt.sd;
+		//CURL* handle = mydt.handle;
+		map<string, double> benchmark_mapping = mydt.benchmark_mapping;
+		string sCrumb = mydt.sCrumb;
+		string sCookies = mydt.sCookies;
 
-		cout << mydt.sd->ticker << " retrieve data" << endl;
 
-		// multiprocess tasks
-		mydt.sd->RetrieveData(mydt.N, &mydt.calendar);
-		mydt.sd->CalDailyReturns();
+		//curl_global_init(CURL_GLOBAL_ALL);
+		 //curl_easy_init() returns a CURL easy handle
+		CURL* handle = curl_easy_init();
+
+		struct MemoryStruct data;
+		data.memory = NULL;
+		data.size = 0;
+
+		string startTime = getTimeinSeconds(sd->startTime);
+		string endTime = getTimeinSeconds(sd->endTime);
+		string symbol = sd->ticker;
+
+		cout << "fetch: fetching " << symbol << " from " << sd->startTime << " to " << sd->endTime << endl;
+
+
+		string urlA = "https://query1.finance.yahoo.com/v7/finance/download/";
+
+		string urlB = "?period1=";
+		string urlC = "&period2=";
+		string urlD = "&interval=1d&events=history&crumb=";
+		string url = urlA + symbol + urlB + startTime + urlC + endTime + urlD + sCrumb;
+		const char* cURL = url.c_str();
+		//const char* cookies = sCookies.c_str();
+		curl_easy_setopt(handle, CURLOPT_URL, cURL);
+
+		curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, write_data2);
+		curl_easy_setopt(handle, CURLOPT_WRITEDATA, (void*)&data);
+		CURLcode result = curl_easy_perform(handle);
+
+		if (result != CURLE_OK)
+		{
+			// if errors have occurred, tell us what is wrong with 'result'
+			fprintf(stderr, "curl_easy_perform() failed: % s\n", curl_easy_strerror(result));
+			return 1;
+		}
+
+		stringstream sData;
+		sData.str(data.memory);
+		string sValue, sDate;
+		double dValue = 0;
+		string line;
+		getline(sData, line);
+
+
+		while (getline(sData, line))
+		{
+			sDate = line.substr(0, line.find_first_of(','));
+			line.erase(line.find_last_of(','));
+			sValue = line.substr(line.find_last_of(',') + 1);
+			dValue = strtod(sValue.c_str(), NULL);
+
+			sd->dates.push_back(sDate);
+			sd->adjclose.push_back(dValue);
+			sd->dates_benchmark.push_back(sDate);
+			sd->adjclose_benchmark.push_back(benchmark_mapping[sDate]);
+
+		}
+
+		free(data.memory);
+		data.size = 0;
+
+		curl_easy_cleanup(handle);
+
 	}
 }
 

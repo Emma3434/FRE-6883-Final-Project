@@ -15,7 +15,7 @@ using namespace std;
 //#define MISS_FILE ".\\data\\Miss_Test.csv"
 //#define MEET_FILE ".\\data\\Meet_Test.csv"
 //#define BEAT_FILE ".\\data\\Beat_Test.csv"
-#define THREAD_NUM 5
+#define THREAD_NUM 10
 #define BOOTSTRAP_NUM 50
 
 

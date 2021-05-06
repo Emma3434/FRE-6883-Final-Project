@@ -10,11 +10,13 @@
 #include <locale>
 #include <iomanip>
 #include <fstream>
+#include <thread>
 #include <map>
 
 #include "StockData.h"
 //#include "curl.h"
 #include "curl/curl.h"
+//#include "Utils.h"
 
 using namespace std;
 
