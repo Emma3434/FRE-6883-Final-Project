@@ -12,6 +12,7 @@
 #include <deque>
 #include <condition_variable>
 #include "StockData.h"
+#include "Constant.h"
 
 using namespace std;
 

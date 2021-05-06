@@ -149,7 +149,7 @@ bool cmp(pair<StockData*, double> a, pair<StockData*, double> b)
 
 map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list)
 {
-	int bootstrap_num = 50;
+	int bootstrap_num = BOOTSTRAP_NUM;
 	default_random_engine random(time(NULL));
 	std::uniform_real_distribution<double> dist(0.0, 1.0);
 

@@ -1,6 +1,8 @@
 
 #include "MainEngine.h"
 
+extern int fetch_data_list(vector<StockData*> stock_list);
+
 void MainEngine::Initialize()
 {
 	// init calendar
@@ -44,12 +46,17 @@ void MainEngine::RetrieveDataSingleThread()
 	cout << "start retrieve data (single-thread)..." << endl << endl;
 
 	clock_t time1 = clock();
+
+	for (auto iter : stock_list)  iter->RetrieveDataSetting(N, &calendar);
+
+	fetch_data_list(stock_list);
+
 	for (auto iter : stock_list)
 	{
 		cout << iter->ticker << endl;
-		iter->RetrieveData(N, &calendar);
+		iter->RetrieveDataSanityCheck();
 		iter->CalDailyReturns();
-		iter->DisplayData();
+		//iter->DisplayData();
 	}
 
 	clock_t time2 = clock();

@@ -10,6 +10,7 @@
 #include <locale>
 #include <iomanip>
 #include <fstream>
+#include <map>
 
 #include "StockData.h"
 //#include "curl.h"

@@ -22,6 +22,10 @@ public:
 	double eps_surprise;
 	double eps_surprise_percent;
 
+	string startTime;
+	string endTime;
+	int N;
+
 	bool fetch_success;
 
 	vector<string> dates;
@@ -56,6 +60,8 @@ public:
 	void SetEPSSurprisePercent(double eps_surprise_percent_) { eps_surprise_percent = eps_surprise_percent_; };
 
 	void RetrieveData(int N, CalendarManager *calendar);
+	void RetrieveDataSetting(int N, CalendarManager* calendar);
+	void RetrieveDataSanityCheck();
 	void CalDailyReturns();
 
 	// getters

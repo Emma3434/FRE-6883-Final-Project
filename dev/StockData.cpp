@@ -60,6 +60,45 @@ void StockData::RetrieveData(int N, CalendarManager* calendar)
 
 }
 
+
+void StockData::RetrieveDataSetting(int N_, CalendarManager* calendar)
+{
+	N = N_;
+
+	// clear dates and adjclose vectors
+	vector <string>().swap(dates);
+	adjclose.clear();
+	vector <string>().swap(dates_benchmark);
+	adjclose_benchmark.clear();
+
+	string day0 = announce_day + "T16:00:00";
+	startTime = (*calendar).PrevNDays(announce_day, N);
+	endTime = (*calendar).NextNDays(announce_day, N);
+
+}
+
+void StockData::RetrieveDataSanityCheck()
+{
+	fetch_success = false;
+
+
+	cout << "fetch: sanity check..." << endl;
+	cout << "fetch: " << ticker << " expected length: " << 2 * N + 1 << ", received length: " << adjclose.size() << endl;
+	cout << "fetch: " << ticker << " benchmark expected length: " << 2 * N + 1 << ", received length: " << adjclose_benchmark.size() << endl;
+
+	if ((2 * N + 1 == adjclose.size()) && (adjclose.size() == adjclose_benchmark.size()))
+	{
+		// sanity check for fetch data
+		// eg: ADT no historical data on Yahoo finance
+		cout << "fetch: sanity check succeed" << endl << endl;
+		fetch_success = true;
+	}
+	else
+	{
+		cout << "fetch: sanity check fail" << endl << endl;
+	}
+}
+
 void StockData::CalDailyReturns()
 {
 	if (fetch_success)
@@ -95,7 +134,7 @@ void StockData::DisplayData() const
 		<< setw(15) << "Abnormalreturn"
 		<< endl;
 
-	if (adjclose.size() > 4)
+	if ((adjclose.size() > 4) && fetch_success)
 	{
 		for (int i = 0; i <= 4; i++)
 		{

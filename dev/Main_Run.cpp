@@ -7,7 +7,7 @@
 #include "Constant.h"
 #include "Vector.h"
 #include <vector>
-#include <time.h>
+//#include <time.h>
 #include <thread>
 //#include <map>
 #include "Matrix.h"
@@ -31,7 +31,6 @@ int main()
 
 	me.RetrieveDataSingleThread();
 	//me.RetrieveDataMultiThread();
-
 
 
 
