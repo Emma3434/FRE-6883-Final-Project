@@ -165,7 +165,7 @@ map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list)
 	vector<StockData*> beat_result;
 	for (auto iter : vec)
 	{
-		if (iter.first->group == "Beat")
+		if ((iter.first->group == "Beat") && (iter.first->fetch_success))
 		{
 			beat_result.push_back(iter.first);
 			if (beat_result.size() == bootstrap_num) break;
@@ -176,7 +176,7 @@ map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list)
 	vector<StockData*> meet_result;
 	for (auto iter : vec)
 	{
-		if (iter.first->group == "Meet")
+		if ((iter.first->group == "Meet") && (iter.first->fetch_success))
 		{
 			meet_result.push_back(iter.first);
 			if (meet_result.size() == bootstrap_num) break;
@@ -187,7 +187,7 @@ map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list)
 	vector<StockData*> miss_result;
 	for (auto iter : vec)
 	{
-		if (iter.first->group == "Miss")
+		if ((iter.first->group == "Miss") && (iter.first->fetch_success))
 		{
 			miss_result.push_back(iter.first);
 			if (miss_result.size() == bootstrap_num) break;
