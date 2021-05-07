@@ -1,5 +1,9 @@
 #ifndef Utils_H
 #define Utils_H
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <string>
 #include <vector>
 #include <map>
@@ -12,7 +16,7 @@
 #include <deque>
 #include <condition_variable>
 #include "StockData.h"
-#include "Constant.h"
+#include "Configure.h"
 #include "curl/curl.h"
 
 using namespace std;
@@ -41,6 +45,8 @@ int thread_consumer();
 
 bool cmp(pair<StockData*, double> a, pair<StockData*, double> b);
 
-map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list);
+map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list, int i);
+
+void plot_caar(map<string, Vector>);
 
 #endif

@@ -4,6 +4,7 @@
 #include "StockData.h"
 #include "Utils.h"
 #include "CalendarManager.h"
+#include "Matrix.h"
 #include <time.h>
 
 using namespace std;
@@ -15,7 +16,9 @@ public:
 	CalendarManager calendar;
 	vector<StockData*> stock_list;
 	map<string, StockData*> stock_map;
-	
+	vector<string> groups;
+	map<string, map<string, Vector>> research_result;
+
 
 	MainEngine(): N(30) { };
 	MainEngine(int N_) : N(N_) { };
@@ -23,11 +26,14 @@ public:
 	void SetN(int N_) { N = N_; };
 
 	void Initialize();
-	void InitializeTest();
 
 	void LoadStockData();
 	void RetrieveDataSingleThread();
 	void RetrieveDataMultiThread();
+
+	map<string, map<string, Vector>> RunResearch();
+
+	Vector CalReturnForGroup(vector<StockData*> stock_list);
 
 	void ClearAll();
 };

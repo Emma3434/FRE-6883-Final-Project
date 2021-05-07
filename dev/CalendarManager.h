@@ -8,7 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-#include "Constant.h"
+#include "Configure.h"
 
 using namespace std;
 

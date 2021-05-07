@@ -3,6 +3,8 @@
 
 extern int fetch_data_list_single(vector<StockData*> stock_list);
 
+extern int fetch_data_list_single2(vector<StockData*> stock_list);
+
 extern int fetch_data_list_multi(vector<StockData*> stock_list);
 
 
@@ -15,16 +17,10 @@ void MainEngine::Initialize()
 	LoadStockData();
 	stock_map = create_stock_map(stock_list);
 
-}
-
-void MainEngine::InitializeTest()
-{
-	// init calendar
-	calendar.LoadData();
-
-	// init stock list
-	stock_list = load_stock_data(TEST_FILE, "Test");
-	stock_map = create_stock_map(stock_list);
+	// init groups
+	groups.push_back("Beat");
+	groups.push_back("Meet");
+	groups.push_back("Miss");
 
 }
 
@@ -91,6 +87,50 @@ void MainEngine::RetrieveDataMultiThread()
 	cout << "run time : " << secs << " seconds" << endl;
 }
 
+map<string, map<string, Vector>> MainEngine::RunResearch()
+{	
+	map<string, vector<Vector>> AAR;
+	map<string, vector<Vector>> CAAR;
+
+	map<string, map<string, Vector>> result;
+
+	for (int i = 0; i < RUN_BOOTSTRAP_NUM; i++)
+	{
+		// run bootstrap
+		cout << "bootstrapping trial: " << i+1 << endl;
+		map<string, vector<StockData*>> bootstrap_result = bootstrapping(stock_list, i);
+		cout << bootstrap_result["Beat"][1]->ticker << endl;
+		//cout << "bootstrapping finish" << endl;
+		for (auto iter : groups)
+		{
+			AAR[iter].push_back(CalReturnForGroup(bootstrap_result[iter]));
+			CAAR[iter].push_back(AAR[iter].back().cumsum());
+		}
+
+		//cout << "AAR CAAR finish" << endl;
+	}
+
+	// combine bootstrap results
+	for (auto iter : groups)
+	{
+		Matrix AAR_mean(AAR[iter]);
+		Matrix CAAR_mean(CAAR[iter]);
+		//AAR_mean.display(); // check if random see valid
+		result["AAR_mean"][iter] = Matrix(AAR[iter]).mean();
+		result["CAAR_mean"][iter] = Matrix(CAAR[iter]).mean();
+		result["AAR_std"][iter] = Matrix(AAR[iter]).std();
+		result["CAAR_std"][iter] = Matrix(CAAR[iter]).std();
+	}
+	research_result = result;
+	return result;
+}
+
+Vector MainEngine::CalReturnForGroup(vector<StockData*> stock_list)
+{
+	Matrix mat(stock_list);
+	Vector AARt = mat.sum();
+	return AARt;
+}
 
 void MainEngine::ClearAll()
 {

@@ -20,8 +20,15 @@ crypt32.lib
 libcurl_a_debug.lib
 advapi32.lib
 
-## Development
+
+
+## Development & Design
 ### Test-Driven development
 We use [google test](https://github.com/google/googletest) to unit test our tasks based on initial designs. Google Test is integrated into the Visual Studio IDE as a default component of the Desktop Development with C++ workload. Feel free to run the unit test cases in **gtest** folder.
 
-## 
+### Multi-thread Download Data from Yahoo Finance
+We use producer-consumer model and create a thread pool to handle the download task. The time consumption decreases from 760s to 88s with a pool of 10 threads. 
+
+
+## Research Result
+![result](result.png)

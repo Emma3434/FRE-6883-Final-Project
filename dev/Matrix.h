@@ -24,6 +24,10 @@ public:
 			data.push_back(iter->abnormal_return);
 		}
 	};
+	Matrix(vector<Vector> mat_data)
+	{
+		data = mat_data;
+	};
 	~Matrix() {};
 	void append(Vector& V);
 
@@ -31,6 +35,8 @@ public:
 	Vector sum();
 	Vector mean();
 	Vector std();
+
+	void display();
 
 	//operator overloading
 	friend ostream& operator << (ostream& out, Matrix & M)
