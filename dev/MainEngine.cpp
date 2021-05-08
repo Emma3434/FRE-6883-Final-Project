@@ -189,11 +189,52 @@ void MainEngine::RunMenu()
 		}
 		else if (choice == 3)
 		{
-			research_result["CAAR_mean"]["Beat"].display();
+			cout << "Please enter the group selection: " 
+				<< "1. Beat group"
+				<< "2. Meet group"
+				<< "3. Miss group"
+				<< "4. Go back to the previous menu"
+				<< endl;
+			int group_choice;
+			cin >> group_choice;
+			switch (group_choice) {
+			case 1:
+				research_result["CAAR_mean"]["Beat"].display();
+				break;
+			case 2:
+				research_result["CAAR_mean"]["Meet"].display();
+				break;
+			case 3:
+				research_result["CAAR_mean"]["Miss"].display();
+				break;
+			case 4:
+				break;
+			default:
+				cout << "Please enter a valid choice." << endl;
+			}
 		}
 		else if (choice == 4)
 		{
-			plot_caar(research_result["CAAR_mean"]);
+			cout << "Please enter plot engine selection: "
+				<< "1. GNU plot"
+				<< "2. Excel plot"
+				<< "3. Go back to the previous menu"
+				<< endl;
+			int plot_choice;
+			cin >> plot_choice;
+			switch (plot_choice) {
+			case 1:
+				cout << "Plotting CAAR with GNU plot..." << endl;
+				plot_caar(research_result["CAAR_mean"]);
+				break;
+			case 2:
+				cout << "Under construction" << endl;
+				break;
+			case 3:
+				break;
+			default:
+				cout << "Please enter a valid choice." << endl;
+			}
 		}
 		else if (choice == 5)
 		{
