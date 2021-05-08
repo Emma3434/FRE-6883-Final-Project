@@ -13,18 +13,18 @@ using namespace std;
 #define TIME_ZONE "SH"   // NYC/SH
 
 // live
-#define MISS_FILE ".\\data\\Miss.csv"
-#define MEET_FILE ".\\data\\Meet.csv"
-#define BEAT_FILE ".\\data\\Beat.csv"
-#define BOOTSTRAP_NUM 50
-#define RUN_BOOTSTRAP_NUM 40
+//#define MISS_FILE ".\\data\\Miss.csv"
+//#define MEET_FILE ".\\data\\Meet.csv"
+//#define BEAT_FILE ".\\data\\Beat.csv"
+//#define BOOTSTRAP_NUM 50
+//#define RUN_BOOTSTRAP_NUM 40
 
 // test
-//#define MISS_FILE ".\\data\\Miss_Test.csv"
-//#define MEET_FILE ".\\data\\Meet_Test.csv"
-//#define BEAT_FILE ".\\data\\Beat_Test.csv"
-//#define BOOTSTRAP_NUM 20
-//#define RUN_BOOTSTRAP_NUM 5
+#define MISS_FILE ".\\data\\Miss_Test.csv"
+#define MEET_FILE ".\\data\\Meet_Test.csv"
+#define BEAT_FILE ".\\data\\Beat_Test.csv"
+#define BOOTSTRAP_NUM 20
+#define RUN_BOOTSTRAP_NUM 5
 
 
 #endif

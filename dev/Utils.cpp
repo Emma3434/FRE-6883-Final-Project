@@ -339,10 +339,11 @@ void plot_caar(map<string, Vector> research_result)
 		}
 		fclose(tempDataFile);
 
+
 		fprintf(gnuplotPipe, "set term wxt\n");
 		fprintf(gnuplotPipe, "plot \"%s\" with lines, \"%s\" with lines, \"%s\" with lines\n", tempDataFileName1, tempDataFileName2, tempDataFileName3);
 		fflush(gnuplotPipe);
-
+		this_thread::sleep_for(2s); // speed bump
 
 		printf("press enter to continue...");
 		getchar();

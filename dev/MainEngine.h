@@ -35,6 +35,8 @@ public:
 
 	Vector CalReturnForGroup(vector<StockData*> stock_list);
 
+	void RunMenu();
+
 	void ClearAll();
 };
 

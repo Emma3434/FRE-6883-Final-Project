@@ -349,10 +349,6 @@ int fetch_data_list_single(vector<StockData*> stock_list)
 			cout << "update cookie: " << sCookies << " " << sCrumb << endl;
 		}
 
-
-
-
-
 		vector<string> dates_benchmark;
 		vector<double> price_benchmark;
 		map<string, double> benchmark_mapping;

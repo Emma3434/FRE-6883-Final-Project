@@ -22,21 +22,17 @@ int main()
 {
 
 	MainEngine me;
-
-	me.SetN(30);
-
 	me.Initialize();
 
-	me.RetrieveDataSingleThread();
-	//me.RetrieveDataMultiThread();
+	//me.SetN(30);
+	//me.RetrieveDataSingleThread();
+	////me.RetrieveDataMultiThread();
+	//map<string, map<string, Vector>> result = me.RunResearch();
+	////result["CAAR_mean"]["Beat"].display();
+	//plot_caar(result["CAAR_mean"]);
 
-	map<string, map<string, Vector>> result = me.RunResearch();
-	//result["CAAR_mean"]["Beat"].display();
-	plot_caar(result["CAAR_mean"]);
+	me.RunMenu();
 
 	me.ClearAll();
-
-
-	
 
 }

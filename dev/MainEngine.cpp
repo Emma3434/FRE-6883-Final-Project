@@ -130,6 +130,86 @@ Vector MainEngine::CalReturnForGroup(vector<StockData*> stock_list)
 	return AARt;
 }
 
+void MainEngine::RunMenu()
+{
+	while (1)
+	{
+		// display items
+		cout << endl;
+		cout << "----------Menu--------------" << endl;
+		cout << "1. Enter N." << endl
+			 << "2. Pull information for one stock." << endl
+			 << "3. Show AAR, AAR-SD, CAAR and CAAR-STD for one group." << endl
+			 << "4. Show the Excel or gnuplot graph with CAAR for all 3 groups." << endl
+			 << "5. Exit menu." << endl << endl;
+
+		// get input
+		int choice;
+		cin >> choice;
+
+		if (choice == 1)
+		{
+			cout << "Please enter N:" << endl;
+			int N;
+			cin >> N;
+			if (N < 30)
+			{
+				cout << "Invalid N, use N=30." << endl;
+				SetN(30);
+			}
+			else
+			{
+				SetN(N);
+			}
+			cout << "Please enter single/multi thread download (1 for single-thread, 2 for multi-thread):" << endl;
+			int thread_choice;
+			cin >> thread_choice;
+			if (thread_choice == 1)
+			{
+				RetrieveDataSingleThread();
+			}
+			else if (thread_choice == 2)
+			{
+				RetrieveDataMultiThread();
+			}
+			else
+			{
+				cout << "Invalid thread choice, use single-thread." << endl;
+				RetrieveDataSingleThread();
+			}
+			RunResearch();
+		}
+		else if (choice == 2)
+		{
+			cout << "Please enter stock ticker:" << endl;
+			string ticker;
+			cin >> ticker;
+			stock_map[ticker]->DisplayAttribute();
+			stock_map[ticker]->DisplayData();
+		}
+		else if (choice == 3)
+		{
+			research_result["CAAR_mean"]["Beat"].display();
+		}
+		else if (choice == 4)
+		{
+			plot_caar(research_result["CAAR_mean"]);
+		}
+		else if (choice == 5)
+		{
+			cout << "Exit menu." << endl;
+			break;
+		}
+		else
+		{
+			cout << "Please enter a valid choice." << endl;
+		}
+
+
+	}
+
+}
+
 void MainEngine::ClearAll()
 {
 	for (auto itr : stock_list)
