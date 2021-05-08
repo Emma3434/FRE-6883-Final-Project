@@ -10,7 +10,7 @@ using namespace std;
 #define TEST_FILE ".\\data\\Test.csv"
 #define GNU_PATH "C:\\Programs\\gnuplot\\bin\\gnuplot.exe" // ck
 #define THREAD_NUM 10
-#define TIME_ZONE "NYC"   // NYC/SH
+#define TIME_ZONE "NYC"   // NYC/SH/CH
 
 // live
 //#define MISS_FILE ".\\data\\Miss.csv"

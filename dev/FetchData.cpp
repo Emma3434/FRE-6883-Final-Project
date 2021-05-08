@@ -63,6 +63,10 @@ string getTimeinSeconds(string Time)
 		{
 			sprintf(time, "%lld", mktime(&t) + 12 * 3600); // GMT-4
 		}
+		else if (TIME_ZONE == "CT")
+		{
+			sprintf(time, "%lld", mktime(&t) + 11 * 3600); // GMT-5
+		}
 		else if(TIME_ZONE == "SH")
 		{
 			sprintf(time, "%lld", mktime(&t) + 24 * 3600); // GMT+8

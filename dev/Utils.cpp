@@ -357,3 +357,5 @@ void plot_caar(map<string, Vector> research_result)
 	}
 }
 
+// void plot_caar_excel(map<string, Vector> research_result)
+
