@@ -5,12 +5,12 @@
 #include <string>
 using namespace std;
 
-
- //files
+// global
 #define CALENDAR_FILE ".\\data\\US_cal.csv"
 #define TEST_FILE ".\\data\\Test.csv"
 #define GNU_PATH "D:\\programs\\gnuplot\\bin\\gnuplot.exe" // ck
 #define THREAD_NUM 10
+#define TIME_ZONE "SH"   // NYC/SH
 
 // live
 #define MISS_FILE ".\\data\\Miss.csv"
@@ -25,7 +25,6 @@ using namespace std;
 //#define BEAT_FILE ".\\data\\Beat_Test.csv"
 //#define BOOTSTRAP_NUM 20
 //#define RUN_BOOTSTRAP_NUM 5
-
 
 
 #endif

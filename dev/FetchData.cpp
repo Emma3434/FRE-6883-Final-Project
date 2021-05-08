@@ -59,11 +59,18 @@ string getTimeinSeconds(string Time)
 	{
 		//cout << std::put_time(&t, "%c %Z") << "\n" << std::mktime(&t) << "\n";
 
-		// TODO: trans date issue
-		//sprintf(time, "%lld", mktime(&t)); 
-		sprintf(time, "%lld", mktime(&t)+24*3600);
-
-		// TODO: trans date issue
+		if (TIME_ZONE == "NYC")
+		{
+			sprintf(time, "%lld", mktime(&t) + 12 * 3600); // GMT-4
+		}
+		else if(TIME_ZONE == "SH")
+		{
+			sprintf(time, "%lld", mktime(&t) + 24 * 3600); // GMT+8
+		}
+		else
+		{
+			cout << "unknown time zone." << endl;
+		}
 
 		return string(time);
 	}
@@ -491,180 +498,6 @@ int fetch_data_list_single(vector<StockData*> stock_list)
 
 	return 0;
 }
-
-
-int fetch_data_list_single2(vector<StockData*> stock_list)
-{
-	// without cookies
-	struct MemoryStruct data;
-
-	string sCookies;
-	string sCrumb;
-	data.memory = NULL;
-	data.size = 0;
-
-	//FILE* fp1;
-	const char outfilename[FILENAME_MAX] = "Output.txt";
-
-	// declaration of a pointer to an curl object
-	/*CURL* handle;*/
-
-	// result of the whole process
-	CURLcode result;
-	// set up the program environment that libcurl needs
-	curl_global_init(CURL_GLOBAL_ALL);
-
-	// curl_easy_init() returns a CURL easy handle
-	CURL* handle = curl_easy_init();
-	FILE* fp;
-
-	// if everything's all right with the easy handle...
-	if (handle)
-	{		
-		vector<string> dates_benchmark;
-		vector<double> price_benchmark;
-		map<string, double> benchmark_mapping;
-
-
-		string startTime = getTimeinSeconds("2018-01-01");
-		string endTime = getTimeinSeconds("2021-04-12");
-		string symbol = "IWB";
-
-		cout << "fetch: fetching " << "IWB" << endl;
-
-
-		string urlA = "https://query1.finance.yahoo.com/v7/finance/download/";
-		string urlB = "?period1=";
-		string urlC = "&period2=";
-		string urlD = "&interval=1d&events=history";
-		string url = urlA + symbol + urlB + startTime + urlC + endTime + urlD;
-		const char* cURL = url.c_str();
-
-
-		curl_easy_setopt(handle, CURLOPT_URL, cURL);
-
-		curl_easy_setopt(handle, CURLOPT_ENCODING, "");
-
-		curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, write_data2);
-		curl_easy_setopt(handle, CURLOPT_WRITEDATA, (void*)&data);
-		result = curl_easy_perform(handle);
-
-		if (result != CURLE_OK)
-		{
-			// if errors have occurred, tell us what is wrong with 'result'
-			fprintf(stderr, "curl_easy_perform() failed: % s\n", curl_easy_strerror(result));
-			return 1;
-		}
-
-		// benchmark all
-		stringstream sData;
-		sData.str(data.memory);
-		string sValue, sDate;
-		double dValue = 0;
-		string line;
-		getline(sData, line);
-
-		while (getline(sData, line))
-		{
-			sDate = line.substr(0, line.find_first_of(',')); // get Date column
-			line.erase(line.find_last_of(',')); // 
-			sValue = line.substr(line.find_last_of(',') + 1); // get Adj Close column
-			dValue = strtod(sValue.c_str(), NULL); // str to double, for Adj Close column
-
-			dates_benchmark.push_back(sDate);
-			price_benchmark.push_back(dValue);
-		}
-
-		for (int i = 0; i < dates_benchmark.size(); i++)
-		{
-			benchmark_mapping[dates_benchmark[i]] = price_benchmark[i];
-		}
-
-
-		for (auto iter : stock_list)
-		{
-			//this_thread::sleep_for(100ms); // speed bump
-			data.memory = NULL;
-			data.size = 0;
-
-			string startTime = getTimeinSeconds(iter->startTime);
-			string endTime = getTimeinSeconds(iter->endTime);
-			string symbol = iter->ticker;
-
-			cout << "fetch: fetching " << symbol << " from " << iter->startTime << " to " << iter->endTime << endl;
-
-			string urlA = "https://query1.finance.yahoo.com/v7/finance/download/";
-			string urlB = "?period1=";
-			string urlC = "&period2=";
-			string urlD = "&interval=1d&events=history";
-			string url = urlA + symbol + urlB + startTime + urlC + endTime + urlD;
-			const char* cURL = url.c_str();
-			curl_easy_setopt(handle, CURLOPT_URL, cURL);
-
-			curl_easy_setopt(handle, CURLOPT_ENCODING, "");
-
-			curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, write_data2);
-			curl_easy_setopt(handle, CURLOPT_WRITEDATA, (void*)&data);
-			result = curl_easy_perform(handle);
-
-			if (result != CURLE_OK)
-			{
-				// if errors have occurred, tell us what is wrong with 'result'
-				fprintf(stderr, "curl_easy_perform() failed: % s\n", curl_easy_strerror(result));
-				return 1;
-			}
-
-			stringstream sData;
-			sData.str(data.memory);
-			string sValue, sDate;
-			double dValue = 0;
-			string line;
-			getline(sData, line);
-
-			try
-			{
-				while (getline(sData, line))
-				{
-					sDate = line.substr(0, line.find_first_of(','));
-					line.erase(line.find_last_of(','));
-					sValue = line.substr(line.find_last_of(',') + 1);
-					dValue = strtod(sValue.c_str(), NULL);
-
-					iter->dates.push_back(sDate);
-					iter->adjclose.push_back(dValue);
-					iter->dates_benchmark.push_back(sDate);
-					iter->adjclose_benchmark.push_back(benchmark_mapping[sDate]);
-
-				}
-			}
-			catch (out_of_range& exc)
-			{
-				cout << exc.what() << " Line:" << __LINE__ << " File:" << __FILE__ << endl;
-			}
-			catch (...)
-			{
-				cout << "other error." << " Line:" << __LINE__ << " File:" << __FILE__ << endl;
-			}
-
-
-			free(data.memory);
-			data.size = 0;
-		}
-	}
-	else
-	{
-		fprintf(stderr, "Curl init failed!\n");
-		return 1;
-	}
-
-	// cleanup since you've used curl_easy_init
-	curl_easy_cleanup(handle);
-	// release resources acquired by curl_global_init()
-	curl_global_cleanup();
-
-	return 0;
-}
-
 
 int fetch_data_list_multi(vector<StockData*> stock_list)
 {

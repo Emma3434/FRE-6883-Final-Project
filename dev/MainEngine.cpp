@@ -3,8 +3,6 @@
 
 extern int fetch_data_list_single(vector<StockData*> stock_list);
 
-extern int fetch_data_list_single2(vector<StockData*> stock_list);
-
 extern int fetch_data_list_multi(vector<StockData*> stock_list);
 
 
