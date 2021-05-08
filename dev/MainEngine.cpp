@@ -154,7 +154,7 @@ void MainEngine::RunMenu()
 			cin >> N;
 			if (N < 30)
 			{
-				cout << "Invalid N, use N=30." << endl;
+				cout << "Invalid N, automatically set to N=30." << endl;
 				SetN(30);
 			}
 			else
@@ -184,17 +184,19 @@ void MainEngine::RunMenu()
 			cout << "Please enter stock ticker:" << endl;
 			string ticker;
 			cin >> ticker;
-			stock_map[ticker]->DisplayAttribute();
-			stock_map[ticker]->DisplayData();
+			if (stock_map[ticker]) { 
+				stock_map[ticker]->DisplayAttribute();
+				stock_map[ticker]->DisplayData(); 
+			}
+			else cout << "Please enter a valid ticker. " << endl;
 		}
 		else if (choice == 3)
 		{
-			cout << "Please enter the group selection: " 
-				<< "1. Beat group"
-				<< "2. Meet group"
-				<< "3. Miss group"
-				<< "4. Go back to the previous menu"
-				<< endl;
+			cout << "Please enter the group selection: " << endl
+				<< "1. Beat group" << endl
+				<< "2. Meet group" << endl
+				<< "3. Miss group" << endl
+				<< "4. Go back to the previous menu" << endl;
 			int group_choice;
 			cin >> group_choice;
 			switch (group_choice) {
@@ -215,11 +217,10 @@ void MainEngine::RunMenu()
 		}
 		else if (choice == 4)
 		{
-			cout << "Please enter plot engine selection: "
-				<< "1. GNU plot"
-				<< "2. Excel plot"
-				<< "3. Go back to the previous menu"
-				<< endl;
+			cout << "Please enter plot engine selection: " << endl
+				<< "1. GNU plot" << endl
+				<< "2. Excel plot" << endl
+				<< "3. Go back to the previous menu" << endl;
 			int plot_choice;
 			cin >> plot_choice;
 			switch (plot_choice) {
@@ -228,7 +229,7 @@ void MainEngine::RunMenu()
 				plot_caar(research_result["CAAR_mean"]);
 				break;
 			case 2:
-				cout << "Under construction" << endl;
+				cout << "Under construction..." << endl;
 				break;
 			case 3:
 				break;

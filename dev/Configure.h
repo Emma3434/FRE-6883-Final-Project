@@ -8,7 +8,7 @@ using namespace std;
 // global
 #define CALENDAR_FILE ".\\data\\US_cal.csv"
 #define TEST_FILE ".\\data\\Test.csv"
-#define GNU_PATH "D:\\programs\\gnuplot\\bin\\gnuplot.exe" // ck
+#define GNU_PATH "C:\\Programs\\gnuplot\\bin\\gnuplot.exe" // ck
 #define THREAD_NUM 10
 #define TIME_ZONE "NYC"   // NYC/SH
 
