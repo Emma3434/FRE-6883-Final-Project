@@ -201,6 +201,13 @@ void MainEngine::RunMenu()
 			cin >> group_choice;
 			switch (group_choice) {
 			case 1:
+				cout << "==================AAR mean of Beat group==================" << endl;
+				research_result["AAR_mean"]["Beat"].display();
+				cout << "==================CAAR mean of Beat group==================" << endl;
+				research_result["CAAR_mean"]["Beat"].display();
+				cout << "==================CAAR mean of Beat group==================" << endl;
+				research_result["CAAR_mean"]["Beat"].display();
+				cout << "==================CAAR mean of Beat group==================" << endl;
 				research_result["CAAR_mean"]["Beat"].display();
 				break;
 			case 2:

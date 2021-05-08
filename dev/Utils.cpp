@@ -341,8 +341,12 @@ void plot_caar(map<string, Vector> research_result)
 
 
 		fprintf(gnuplotPipe, "set term wxt\n");
+		fprintf(gnuplotPipe, "set xlabel 'N - Number of days'\n");
+		fprintf(gnuplotPipe, "set ylabel 'CAAR Mean'\n");
+		fprintf(gnuplotPipe, "set title 'CAAR Mean of all groups'\n");
 		fprintf(gnuplotPipe, "plot \"%s\" with lines, \"%s\" with lines, \"%s\" with lines\n", tempDataFileName1, tempDataFileName2, tempDataFileName3);
 		fflush(gnuplotPipe);
+
 		this_thread::sleep_for(2s); // speed bump
 
 		printf("press enter to continue...");
@@ -357,5 +361,7 @@ void plot_caar(map<string, Vector> research_result)
 	}
 }
 
-// void plot_caar_excel(map<string, Vector> research_result)
+//void plot_caar_excel(map<string, Vector> research_result) {
+//	ExcelDriver& excel = ExcelDriver::Instance();
+//}
 
