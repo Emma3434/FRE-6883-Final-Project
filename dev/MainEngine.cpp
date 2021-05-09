@@ -284,25 +284,9 @@ void MainEngine::RunMenu()
 		}
 		else if (choice == 4)
 		{
-			cout << "Please enter plot engine selection: " << endl
-				<< "1. GNU plot" << endl
-				<< "2. Excel plot" << endl
-				<< "3. Go back to the previous menu" << endl;
-			int plot_choice;
-			cin >> plot_choice;
-			switch (plot_choice) {
-			case 1:
-				cout << "Plotting CAAR with GNU plot..." << endl;
-				plot_caar(research_result["CAAR_mean"]);
-				break;
-			case 2:
-				cout << "Under construction..." << endl;
-				break;
-			case 3:
-				break;
-			default:
-				cout << "Please enter a valid choice." << endl;
-			}
+			cout << "Plotting CAAR with GNU plot..." << endl;
+			plot_caar(research_result["CAAR_mean"]);
+			break;
 		}
 		else if (choice == 5)
 		{
