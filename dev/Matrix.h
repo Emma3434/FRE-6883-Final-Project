@@ -34,6 +34,7 @@ public:
 	//getters
 	Vector sum();
 	Vector mean();
+	Vector weighted_mean(Vector weights);
 	Vector std();
 
 	void display();

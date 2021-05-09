@@ -13,8 +13,10 @@ class MainEngine
 {
 public:
 	int N;
+	int weight_choice;   // Weights for AARt. 1: equal weights, 2: IWB weights
 	CalendarManager calendar;
 	vector<StockData*> stock_list;
+	map<string, double> weights_map;
 	map<string, StockData*> stock_map;
 	vector<string> groups;
 	map<string, map<string, Vector>> research_result;
@@ -28,12 +30,15 @@ public:
 	void Initialize();
 
 	void LoadStockData();
+	void LoadWeightData();
 	void RetrieveDataSingleThread();
 	void RetrieveDataMultiThread();
 
 	map<string, map<string, Vector>> RunResearch();
 
 	Vector CalReturnForGroup(vector<StockData*> stock_list);
+	Vector GetWeights(vector<StockData*> stock_list);
+
 
 	void RunMenu();
 

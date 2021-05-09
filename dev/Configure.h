@@ -7,12 +7,13 @@ using namespace std;
 
 // global
 #define CALENDAR_FILE ".\\data\\US_cal.csv"
+#define WEIGHTS_FILE ".\\data\\IWB_weights.csv"
 #define TEST_FILE ".\\data\\Test.csv"
 //#define GNU_PATH "C:\\Programs\\gnuplot\\bin\\gnuplot.exe" // wzh
 #define GNU_PATH "D:\\programs\\gnuplot\\bin\\gnuplot.exe" // ck
 #define THREAD_NUM 10
 #define TIME_ZONE "SH"   // NYC/SH/CH
-#define BENCHMARK_TICKER "EQAL"  // IWB/EQAL
+#define BENCHMARK_TICKER "IWB"  // IWB/EQAL
 
 // live
 #define MISS_FILE ".\\data\\Miss.csv"

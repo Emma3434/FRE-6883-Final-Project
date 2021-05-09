@@ -33,8 +33,15 @@ We use producer-consumer model and create a thread pool to handle the download t
 ## Research Result
 **IWB as benchmark**
 
-![result](result_IWB.png)
+equal weights to calculate AAR
+
+![result](result_IWB_equalweight.png)
+
+
+IWB weights to calculate AAR (use IWB 12/31/2020 weights)
+
+![result](result_IWB_marketcapweight.png)
 
 **EQAL as benchmark**
 
-![result](result_EQAL.png)
+![result](result_EQAL_equalweight.png)

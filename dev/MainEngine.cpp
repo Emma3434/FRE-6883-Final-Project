@@ -13,6 +13,7 @@ void MainEngine::Initialize()
 
 	// init stock list
 	LoadStockData();
+	LoadWeightData();
 	stock_map = create_stock_map(stock_list);
 
 	// init groups
@@ -35,6 +36,21 @@ void MainEngine::LoadStockData()
 	stock_list = combine_stock_list(stock_list_miss, stock_list_meet, stock_list_beat);
 
 	cout << "stock list size: " << stock_list.size() << endl;
+}
+
+void MainEngine::LoadWeightData()
+{
+	ifstream inFile(WEIGHTS_FILE, ios::in);
+	string line;
+
+	getline(inFile, line);
+
+	while (getline(inFile, line))
+	{
+		string ticker = line.substr(0, line.find_first_of(','));
+		double weight = stod(line.substr(line.find_last_of(',') + 1));
+		weights_map[ticker] = weight/100;
+	}
 }
 
 void MainEngine::RetrieveDataSingleThread()
@@ -126,8 +142,33 @@ map<string, map<string, Vector>> MainEngine::RunResearch()
 Vector MainEngine::CalReturnForGroup(vector<StockData*> stock_list)
 {
 	Matrix mat(stock_list);
-	Vector AARt = mat.mean();
+	Vector weights = GetWeights(stock_list);
+	Vector AARt;
+	if (weight_choice == 1)
+	{
+		AARt = mat.mean();
+	}
+	else if(weight_choice == 2)
+	{
+		AARt = mat.weighted_mean(weights);
+	}
+	else
+	{
+		cout << "Invalid weight choice, use equal weights." << endl;
+		AARt = mat.mean();
+	}
+	
 	return AARt;
+}
+
+Vector MainEngine::GetWeights(vector<StockData*> stock_list)
+{
+	Vector weights;
+	for (auto iter : stock_list)
+	{
+		weights.push_back(weights_map[iter->ticker]);
+	}
+	return weights;
 }
 
 void MainEngine::RunMenu()
@@ -161,9 +202,14 @@ void MainEngine::RunMenu()
 			{
 				SetN(N);
 			}
+			
 			cout << "Please enter single/multi thread download (1 for single-thread, 2 for multi-thread):" << endl;
 			int thread_choice;
 			cin >> thread_choice;
+
+			cout << "Please enter weights for ARR (1 for equal weights, 2 for IWB weights (market-cap weights)):" << endl;
+			cin >> weight_choice;
+
 			if (thread_choice == 1)
 			{
 				RetrieveDataSingleThread();

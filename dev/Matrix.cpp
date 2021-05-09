@@ -40,6 +40,23 @@ Vector Matrix::mean()
 	return Vector(meanvec);
 }
 
+Vector Matrix::weighted_mean(Vector weights)
+{
+	vector<double> meanvec;
+	double weights_sum = weights.sum();
+
+	for (int i = 0; i < data[0].size(); i++)
+	{
+		double columnsum = 0;
+		for (int j = 0; j < data.size(); j++)
+		{
+			columnsum = columnsum + data[j][i] * weights[j];
+		}
+		meanvec.push_back(columnsum / weights_sum);
+	}
+	return Vector(meanvec);
+}
+
 Vector Matrix::std()
 {
 	vector<double> stdvec;
