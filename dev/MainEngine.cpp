@@ -178,10 +178,10 @@ void MainEngine::RunMenu()
 		// display items
 		cout << endl;
 		cout << "----------Menu--------------" << endl;
-		cout << "1. Enter N." << endl
+		cout << "1. (Must execute before using other options) Enter N." << endl
 			 << "2. Pull information for one stock." << endl
 			 << "3. Show AAR, AAR-SD, CAAR and CAAR-STD for one group." << endl
-			 << "4. Show the Excel or gnuplot graph with CAAR for all 3 groups." << endl
+			 << "4. Show the gnuplot graph with CAAR for all 3 groups." << endl
 			 << "5. Exit menu." << endl << endl;
 
 		// get input
