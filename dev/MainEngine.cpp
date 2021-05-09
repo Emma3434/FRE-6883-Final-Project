@@ -126,7 +126,7 @@ map<string, map<string, Vector>> MainEngine::RunResearch()
 Vector MainEngine::CalReturnForGroup(vector<StockData*> stock_list)
 {
 	Matrix mat(stock_list);
-	Vector AARt = mat.sum();
+	Vector AARt = mat.mean();
 	return AARt;
 }
 
@@ -152,7 +152,7 @@ void MainEngine::RunMenu()
 			cout << "Please enter N:" << endl;
 			int N;
 			cin >> N;
-			if (N < 30)
+			if ((N < 30) || (N > 60))
 			{
 				cout << "Invalid N, automatically set to N=30." << endl;
 				SetN(30);
