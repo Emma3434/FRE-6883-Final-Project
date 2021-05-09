@@ -201,20 +201,34 @@ void MainEngine::RunMenu()
 			cin >> group_choice;
 			switch (group_choice) {
 			case 1:
-				cout << "==================AAR mean of Beat group==================" << endl;
+				cout << "==================AAR mean of Beat group=================================" << endl;
 				research_result["AAR_mean"]["Beat"].display();
-				cout << "==================CAAR mean of Beat group==================" << endl;
+				cout << "==================CAAR mean of Beat group================================" << endl;
 				research_result["CAAR_mean"]["Beat"].display();
-				cout << "==================CAAR mean of Beat group==================" << endl;
-				research_result["CAAR_mean"]["Beat"].display();
-				cout << "==================CAAR mean of Beat group==================" << endl;
-				research_result["CAAR_mean"]["Beat"].display();
+				cout << "==================AAR standard deviation of Beat group===================" << endl;
+				research_result["AAR_std"]["Beat"].display();
+				cout << "==================CAAR standard deviation of Beat group==================" << endl;
+				research_result["CAAR_std"]["Beat"].display();
 				break;
 			case 2:
+				cout << "==================AAR mean of Meet group=================================" << endl;
+				research_result["AAR_mean"]["Meet"].display();
+				cout << "==================CAAR mean of Meet group================================" << endl;
 				research_result["CAAR_mean"]["Meet"].display();
+				cout << "==================AAR standard deviation of Meet group===================" << endl;
+				research_result["AAR_std"]["Meet"].display();
+				cout << "==================CAAR standard deviation of Meet group==================" << endl;
+				research_result["CAAR_std"]["Meet"].display();
 				break;
 			case 3:
+				cout << "==================AAR mean of Miss group=================================" << endl;
+				research_result["AAR_mean"]["Miss"].display();
+				cout << "==================CAAR mean of Miss group================================" << endl;
 				research_result["CAAR_mean"]["Miss"].display();
+				cout << "==================AAR standard deviation of Miss group===================" << endl;
+				research_result["AAR_std"]["Miss"].display();
+				cout << "==================CAAR standard deviation of Miss group==================" << endl;
+				research_result["CAAR_std"]["Miss"].display();
 				break;
 			case 4:
 				break;
