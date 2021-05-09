@@ -12,6 +12,7 @@ using namespace std;
 #define GNU_PATH "D:\\programs\\gnuplot\\bin\\gnuplot.exe" // ck
 #define THREAD_NUM 10
 #define TIME_ZONE "SH"   // NYC/SH/CH
+#define BENCHMARK_TICKER "EQAL"  // IWB/EQAL
 
 // live
 #define MISS_FILE ".\\data\\Miss.csv"

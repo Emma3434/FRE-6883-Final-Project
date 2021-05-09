@@ -179,7 +179,7 @@ int fetch_benchmark(StockData* sd, string startTimeString, string endTimeString)
 {
 	string startTime = getTimeinSeconds(startTimeString);
 	string endTime = getTimeinSeconds(endTimeString);
-	string symbol = "IWB";
+	string symbol = BENCHMARK_TICKER;
 
 	//cout << "fetching " << symbol << " from " << startTimeString << " to " << endTimeString << endl;
 
@@ -360,9 +360,9 @@ int fetch_data_list_single(vector<StockData*> stock_list)
 
 		string startTime = getTimeinSeconds("2018-01-01");
 		string endTime = getTimeinSeconds("2021-04-12");
-		string symbol = "IWB";
+		string symbol = BENCHMARK_TICKER;
 
-		cout << "fetch: fetching " << "IWB" << endl;
+		cout << "fetch: fetching " << symbol << endl;
 
 
 		string urlA = "https://query1.finance.yahoo.com/v7/finance/download/";
@@ -594,9 +594,9 @@ int fetch_data_list_multi(vector<StockData*> stock_list)
 
 		string startTime = getTimeinSeconds("2018-01-01");
 		string endTime = getTimeinSeconds("2021-04-12");
-		string symbol = "IWB";
+		string symbol = BENCHMARK_TICKER;
 
-		cout << "fetch: fetching " << "IWB" << endl;
+		cout << "fetch: fetching " << symbol << endl;
 
 
 		string urlA = "https://query1.finance.yahoo.com/v7/finance/download/";

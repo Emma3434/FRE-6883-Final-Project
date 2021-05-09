@@ -31,4 +31,8 @@ We use producer-consumer model and create a thread pool to handle the download t
 
 
 ## Research Result
-![result](result.png)
+**IWB as benchmark**
+![result](result_IWB.png)
+
+**EQAL as benchmark**
+![result](result_EQAL.png)
