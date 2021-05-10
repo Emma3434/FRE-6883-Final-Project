@@ -248,7 +248,7 @@ map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list, int
 	std::uniform_real_distribution<double> dist(0.0, 1.0);
 
 	vector< pair<StockData*, double> > vec;
-	for (int i = 0; i < stock_list.size()-1; i++)
+	for (int i = 0; i < stock_list.size(); i++)
 	{
 		vec.push_back(pair<StockData*, double>(stock_list[i], dist(random)));
 	}

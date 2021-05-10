@@ -286,7 +286,7 @@ void MainEngine::RunMenu()
 		{
 			cout << "Plotting CAAR with GNU plot..." << endl;
 			plot_caar(research_result["CAAR_mean"]);
-			break;
+			
 		}
 		else if (choice == 5)
 		{
