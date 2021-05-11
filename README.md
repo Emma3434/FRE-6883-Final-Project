@@ -26,6 +26,8 @@ advapi32.lib
 ### Test-Driven development
 We use [google test](https://github.com/google/googletest) to unit test our tasks based on initial designs. Google Test is integrated into the Visual Studio IDE as a default component of the Desktop Development with C++ workload. Feel free to run the unit test cases in **gtest** folder.
 
+![test](./pics/test_cases.png)
+
 ### Multi-thread Download Data from Yahoo Finance
 We use producer-consumer model and create a thread pool to handle the download task. The time consumption decreases from 760s to 88s with a pool of 10 threads. 
 
@@ -35,13 +37,13 @@ We use producer-consumer model and create a thread pool to handle the download t
 
 equal weights to calculate AAR
 
-![result](result_IWB_equalweight.png)
+![result](./pics/result_IWB_equalweight.png)
 
 
 IWB weights to calculate AAR (use IWB 12/31/2020 weights)
 
-![result](result_IWB_marketcapweight.png)
+![result](./pics/result_IWB_marketcapweight.png)
 
 **EQAL as benchmark**
 
-![result](result_EQAL_equalweight.png)
+![result](./pics/result_EQAL_equalweight.png)
