@@ -28,7 +28,6 @@ public:
 	Vector pct_change() const;	
 	double sum() const;
 	Vector cumsum() const;
-	void display() const;
 
 	Vector operator-(Vector& a)
 	{
