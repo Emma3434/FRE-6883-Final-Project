@@ -21,46 +21,6 @@ StockData::StockData(string ticker_): ticker(ticker_)
 }
 
 
-void StockData::RetrieveData(int N, CalendarManager* calendar)
-{
-	fetch_success = false;
-
-	// clear dates and adjclose vectors
-	vector <string>().swap(dates);
-	adjclose.clear();
-	vector <string>().swap(dates_benchmark);
-	adjclose_benchmark.clear();
-
-
-	string day0 = announce_day + "T16:00:00";
-	//cout << "announce day: " << announce_day << endl;
-	string startTime = (*calendar).PrevNDays(announce_day, N);
-	string endTime = (*calendar).NextNDays(announce_day, N);
-
-	int result = fetch_data(this, startTime, endTime);
-	int result_benchmark = fetch_benchmark(this, startTime, endTime);
-
-	//display_data_mutex.lock();
-	cout << "fetch: sanity check..." << endl;
-	cout << "fetch: " << ticker << " expected length: " << 2*N+1 << ", received length: " << adjclose.size() << endl;
-	cout << "fetch: " << ticker << " benchmark expected length: " << 2 * N + 1 << ", received length: " << adjclose_benchmark.size() << endl;
-	//display_data_mutex.unlock();
-
-	if ((2 * N + 1 == adjclose.size()) && (adjclose.size() == adjclose_benchmark.size()))
-	{
-		// sanity check for fetch data
-		// eg: ADT no historical data on Yahoo finance
-		cout << "fetch: sanity check succeed" << endl << endl;
-		fetch_success = true;
-	}
-	else 
-	{
-		cout << "fetch: sanity check fail" << endl << endl;
-	}
-
-}
-
-
 void StockData::RetrieveDataSetting(int N_, CalendarManager* calendar)
 {
 	N = N_;

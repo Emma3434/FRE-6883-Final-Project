@@ -59,7 +59,6 @@ public:
 	void SetEPSSurprise(double eps_surprise_) { eps_surprise = eps_surprise_; };
 	void SetEPSSurprisePercent(double eps_surprise_percent_) { eps_surprise_percent = eps_surprise_percent_; };
 
-	void RetrieveData(int N, CalendarManager *calendar);
 	void RetrieveDataSetting(int N, CalendarManager* calendar);
 	void RetrieveDataSanityCheck();
 	void CalDailyReturns();
