@@ -49,14 +49,7 @@ Vector Vector::cumsum() const
 	return cumsum;
 }
 
-void Vector::display() const
-{
-	for (unsigned int i = 1; i < data.size(); i++)
-	{
-		cout << data[i] << " ";
-	}
-	cout << endl;
-}
+
 
 void Vector::clear()
 {
