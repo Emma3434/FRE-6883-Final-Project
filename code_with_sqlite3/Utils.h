@@ -47,6 +47,6 @@ bool cmp(pair<StockData*, double> a, pair<StockData*, double> b);
 
 map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list, int i);
 
-void plot_caar(map<string, Vector>);
+void plot_caar(map<string, Vector> research_result, string type);
 
 #endif

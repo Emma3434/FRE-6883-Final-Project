@@ -298,7 +298,7 @@ map<string, vector<StockData*>> bootstrapping(vector<StockData*> stock_list, int
 	return bootstrap_result;
 }
 
-void plot_caar(map<string, Vector> research_result) 
+void plot_caar(map<string, Vector> research_result, string type) 
 {
 	int dataSize = research_result["Beat"].size();
 	int N = (dataSize >> 1) + 1;
@@ -315,8 +315,11 @@ void plot_caar(map<string, Vector> research_result)
 		tempDataFile = fopen(tempDataFileName1, "w");
 		for (i = 0; i < dataSize; i++) {
 			x = i - N;
-			//y = research_result["Beat"][i];
-			y = research_result["Beat"][i] - research_result["Beat"][N+1];
+			if (type == "CAAR mean"){
+				y = research_result["Beat"][i] - research_result["Beat"][N + 1];
+			}else{
+				y = research_result["Beat"][i];
+			}
 			fprintf(tempDataFile, "%lf %lf\n", x, y);
 		}
 		fclose(tempDataFile);
@@ -324,8 +327,12 @@ void plot_caar(map<string, Vector> research_result)
 		tempDataFile = fopen(tempDataFileName2, "w");
 		for (i = 0; i < dataSize; i++) {
 			x2 = i - N;
-			//y2 = research_result["Meet"][i];
-			y2 = research_result["Meet"][i] - research_result["Meet"][N + 1];
+			if (type == "CAAR mean") {
+				y2 = research_result["Meet"][i] - research_result["Meet"][N + 1];
+			}
+			else {
+				y2 = research_result["Meet"][i];
+			}
 			fprintf(tempDataFile, "%lf %lf\n", x2, y2);
 		}
 		fclose(tempDataFile);
@@ -333,8 +340,12 @@ void plot_caar(map<string, Vector> research_result)
 		tempDataFile = fopen(tempDataFileName3, "w");
 		for (i = 0; i < dataSize; i++) {
 			x3 = i - N;
-			//y3 = research_result["Miss"][i];
-			y3 = research_result["Miss"][i] - research_result["Miss"][N + 1];
+			if (type == "CAAR mean") {
+				y3 = research_result["Miss"][i] - research_result["Miss"][N + 1];
+			}
+			else {
+				y3 = research_result["Miss"][i];
+			}
 			fprintf(tempDataFile, "%lf %lf\n", x3, y3);
 		}
 		fclose(tempDataFile);
@@ -343,8 +354,8 @@ void plot_caar(map<string, Vector> research_result)
 		fprintf(gnuplotPipe, "set term wxt\n");
 		fprintf(gnuplotPipe, "set grid\n");
 		fprintf(gnuplotPipe, "set xlabel 'N - Number of days'\n");
-		fprintf(gnuplotPipe, "set ylabel 'CAAR Mean'\n");
-		fprintf(gnuplotPipe, "set title 'CAAR Mean of all groups'\n");
+		fprintf(gnuplotPipe, "set ylabel '%s'\n", type.c_str());
+		fprintf(gnuplotPipe, "set title '%s of all groups'\n", type.c_str());
 		fprintf(gnuplotPipe, "set key left top\n");
 		fprintf(gnuplotPipe, "plot \"%s\" with lines, \"%s\" with lines, \"%s\" with lines\n", tempDataFileName1, tempDataFileName2, tempDataFileName3);
 		fflush(gnuplotPipe);
@@ -352,7 +363,8 @@ void plot_caar(map<string, Vector> research_result)
 		this_thread::sleep_for(2s); // speed bump
 
 		printf("press enter to continue...");
-		getchar();
+		//getchar();
+		system("pause");
 		remove(tempDataFileName1);
 		remove(tempDataFileName2);
 		remove(tempDataFileName3);
@@ -362,8 +374,4 @@ void plot_caar(map<string, Vector> research_result)
 		printf("gnuplot not found...");
 	}
 }
-
-//void plot_caar_excel(map<string, Vector> research_result) {
-//	ExcelDriver& excel = ExcelDriver::Instance();
-//}
 
