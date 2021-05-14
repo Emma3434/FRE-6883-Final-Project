@@ -85,11 +85,4 @@ Vector Matrix::std()
 	return Vector(stdvec);
 }
 
-void Matrix::display()
-{
-	for (auto iter: data)
-	{
-		iter.display();
-	}
-}
 
