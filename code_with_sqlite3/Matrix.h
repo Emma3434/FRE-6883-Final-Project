@@ -37,7 +37,7 @@ public:
 	Vector weighted_mean(Vector weights);
 	Vector std();
 
-	void display();
+	
 
 	//operator overloading
 	friend ostream& operator << (ostream& out, Matrix & M)
