@@ -18,13 +18,6 @@ extern void thread_producer(MYDATA* md);
 
 extern int thread_consumer();
 
-int write_data(void* ptr, int size, int nmemb, FILE* stream)
-{
-	size_t written;
-	written = fwrite(ptr, size, nmemb, stream);
-	return written;
-}
-
 
 void* myrealloc(void* ptr, size_t size)
 {
