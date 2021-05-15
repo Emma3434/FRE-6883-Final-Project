@@ -124,6 +124,8 @@ map<string, map<string, Vector>> MainEngine::RunResearch()
 		//cout << "AAR CAAR finish" << endl;
 	}
 
+	vector<vector<Vector>> result_matrix;
+
 	// combine bootstrap results
 	for (auto iter : groups)
 	{
@@ -134,7 +136,16 @@ map<string, map<string, Vector>> MainEngine::RunResearch()
 		result["CAAR_mean"][iter] = Matrix(CAAR[iter]).mean();
 		result["AAR_std"][iter] = Matrix(AAR[iter]).std();
 		result["CAAR_std"][iter] = Matrix(CAAR[iter]).std();
+
+		vector<Vector> result_row;
+		result_row.push_back(result["AAR_mean"][iter]);
+		result_row.push_back(result["AAR_std"][iter]);
+		result_row.push_back(result["CAAR_mean"][iter]);
+		result_row.push_back(result["CAAR_std"][iter]);
+		result_matrix.push_back(result_row);
 	}
+
+	research_result_matrix = result_matrix;
 	research_result = result;
 	return result;
 }

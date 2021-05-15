@@ -20,6 +20,7 @@ public:
 	map<string, StockData*> stock_map;
 	vector<string> groups;
 	map<string, map<string, Vector>> research_result;
+	vector<vector<Vector>> research_result_matrix;
 
 
 	MainEngine(): N(30) { };
