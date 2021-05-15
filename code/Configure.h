@@ -12,7 +12,7 @@ using namespace std;
 //#define GNU_PATH "C:\\Programs\\gnuplot\\bin\\gnuplot.exe" // wzh
 #define GNU_PATH "D:\\programs\\gnuplot\\bin\\gnuplot.exe" // ck
 #define THREAD_NUM 10     // number of threads for multithreading fetch data from Yahoo
-#define TIME_ZONE "NYC"   // NYC=New York City, SH=Shanghai, CT=Connecticut
+#define TIME_ZONE "NYC"   // NYC=New York City, SH=Shanghai, CT=Central Time
 #define BENCHMARK_TICKER "IWB"  // IWB/EQAL
 
 // live
