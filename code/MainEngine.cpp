@@ -254,43 +254,47 @@ void MainEngine::RunMenu()
 				<< "2. Meet group" << endl
 				<< "3. Miss group" << endl
 				<< "4. Go back to the previous menu" << endl;
+
 			int group_choice;
+			int row_choice;
+			string group_name = "";
 			cin >> group_choice;
 			switch (group_choice) {
 			case 1:
-				cout << "==================AAR mean of Beat group=================================" << endl;
-				cout << research_result["AAR_mean"]["Beat"] << endl;
-				cout << "==================CAAR mean of Beat group================================" << endl;
-				cout << research_result["CAAR_mean"]["Beat"] << endl;
-				cout << "==================AAR standard deviation of Beat group===================" << endl;
-				cout << research_result["AAR_std"]["Beat"] << endl;
-				cout << "==================CAAR standard deviation of Beat group==================" << endl;
-				cout << research_result["CAAR_std"]["Beat"] << endl;
+				group_name = "Beat";
+				row_choice = 0;
 				break;
 			case 2:
-				cout << "==================AAR mean of Meet group=================================" << endl;
-				cout << research_result["AAR_mean"]["Meet"] << endl;
-				cout << "==================CAAR mean of Meet group================================" << endl;
-				cout << research_result["CAAR_mean"]["Meet"] << endl;
-				cout << "==================AAR standard deviation of Meet group===================" << endl;
-				cout << research_result["AAR_std"]["Meet"] << endl;
-				cout << "==================CAAR standard deviation of Meet group==================" << endl;
-				cout << research_result["CAAR_std"]["Meet"] << endl;
+				group_name = "Meet";
+				row_choice = 1;
 				break;
 			case 3:
-				cout << "==================AAR mean of Miss group=================================" << endl;
-				cout << research_result["AAR_mean"]["Miss"] << endl;
-				cout << "==================CAAR mean of Miss group================================" << endl;
-				cout << research_result["CAAR_mean"]["Miss"] << endl;
-				cout << "==================AAR standard deviation of Miss group===================" << endl;
-				cout << research_result["AAR_std"]["Miss"] << endl;
-				cout << "==================CAAR standard deviation of Miss group==================" << endl;
-				cout << research_result["CAAR_std"]["Miss"] << endl;
+				group_name = "Miss";
+				row_choice = 2;
 				break;
 			case 4:
 				break;
 			default:
 				cout << "Please enter a valid choice." << endl;
+				continue;
+			}
+
+			vector<Vector> result_row = research_result_matrix[row_choice];
+
+			cout << std::setw(10);
+			cout << setw(6) << "Expected AAR"
+				<< setw(15) << "AAR STD"
+				<< setw(15) << "Expected CAAR"
+				<< setw(15) << "CAAR STD"				
+				<< endl;
+			
+			for (int i = 0; i <= result_row[0].size(); i++)
+			{
+				cout << setw(6) << result_row[0][i]
+					<< setw(15) << result_row[1][i]
+					<< setw(15) << result_row[2][i]
+					<< setw(15) << result_row[3][i]					
+					<< endl;
 			}
 		}
 		else if (choice == 4)
